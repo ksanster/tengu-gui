@@ -8,6 +8,7 @@
     <classEntry path="com.tengu.gui.core.fills.BitmapFill"/>
     <classEntry path="com.tengu.gui.core.controls.TextButton"/>
     <classEntry path="com.tengu.gui.core.GUIContainer"/>
+    <classEntry path="com.tengu.gui.core.uid.UidGenerator"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

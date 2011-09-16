@@ -1,5 +1,7 @@
 package com.tengu.gui.core
 {
+	import com.tengu.gui.core.uid.UidGenerator;
+	
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.utils.Dictionary;
@@ -18,7 +20,9 @@ package com.tengu.gui.core
 		
 		protected var componentWidth:uint 	= 0;
 		protected var componentHeight:uint 	= 0;
-
+		
+		private var componentUid:String		= null;
+		
 		public override function get width():Number
 		{
 			return componentWidth;
@@ -49,9 +53,15 @@ package com.tengu.gui.core
 			return super.height;
 		}
 		
+		public function get uid ():String
+		{
+			return componentUid;
+		}
+		
 		public function GUIComponent()
 		{
 			super();
+			componentUid = UidGenerator.createUID();
 			measure();
 			createChildren();
 			update();
