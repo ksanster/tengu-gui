@@ -23,7 +23,7 @@ package com.tengu.gui.controls.buttonbar
 	[Style(name="button_width")]
 	
 	[Event(name="change", type="flash.events.Event")]
-	public class ButtonBar extends BaseBox
+	public class ButtonGroup extends BaseBox
 	{
 		private var buttonFactoryMethod:Function = null;
 		private var buttonFactoryClass:Class = null;
@@ -87,7 +87,7 @@ package com.tengu.gui.controls.buttonbar
 			return barButtons;
 		} 
 		
-		public function ButtonBar()
+		public function ButtonGroup()
 		{
 			super();
 		}

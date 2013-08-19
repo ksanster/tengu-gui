@@ -16,8 +16,7 @@ package com.tengu.gui.controls.buttons {
 		{
 			super.createChildren();
 			toggle = true;
-			contentHolder.layout.gap = 1;
-			contentHolder.layout.horizontalAlign = HorizontalAlign.LEFT;
+			layout.horizontalAlign = HorizontalAlign.LEFT;
 		}
 
 		protected override function onMouseUp(event : MouseEvent):void 

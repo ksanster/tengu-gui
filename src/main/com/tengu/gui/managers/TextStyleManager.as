@@ -1,18 +1,17 @@
 package com.tengu.gui.managers
 {
-	import com.tengu.core.funcs.parseBoolean;
-	import com.tengu.gui.resources.text.StyleProtocol;
-	
-	import flash.display.DisplayObject;
-	import flash.filters.DropShadowFilter;
-	import flash.filters.GlowFilter;
-	import flash.text.StyleSheet;
-	import flash.text.TextField;
-	import flash.text.TextFormat;
-	
-	import ru.mail.minigames.zygote.logger.LoggerFactory;
-	
-	internal class TextStyleManager 
+    import com.tengu.core.funcs.parseBoolean;
+    import com.tengu.gui.resources.text.StyleProtocol;
+    import com.tengu.log.LogFactory;
+
+    import flash.display.DisplayObject;
+    import flash.filters.DropShadowFilter;
+    import flash.filters.GlowFilter;
+    import flash.text.StyleSheet;
+    import flash.text.TextField;
+    import flash.text.TextFormat;
+
+    internal class TextStyleManager
 	{
 		private static function setAttribute (container:Object, attrName:String, attrValue:*):void
 		{
@@ -155,7 +154,7 @@ package com.tengu.gui.managers
 			
 			if (styles[styleName] == null)
 			{
-				LoggerFactory.get(TextStyleManager).e("Format not set: ", String(styleName));
+                LogFactory.getLogger(TextStyleManager).error("Format not set: ", String(styleName));
 				styleName = "defaultStyle";
 			}
 			if (styles[styleName] is TextStyle)

@@ -30,6 +30,7 @@ package com.tengu.gui.resources.text
 		public static const TEXT_FORMAT_PREFIX:String 	= "format";
 		public static const TEXT_CSS_PREFIX:String 		= "css";
 		public static const FILTER_PREFIX:String 		= "filter";
+        public static const DEFAULT_PREFIX:String       = "default"
 
 		public function StyleProtocol()
 		{

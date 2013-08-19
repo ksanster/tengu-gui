@@ -1,24 +1,23 @@
 package com.tengu.gui.base
 {
-	import com.tengu.calllater.api.IDeferredCaller;
-	import com.tengu.core.tengu_internal;
-	import com.tengu.core.funcs.removeAllChildren;
-	import com.tengu.gui.api.IMarkupManager;
-	import com.tengu.gui.api.IScaleManager;
-	import com.tengu.gui.api.IStyleManager;
-	import com.tengu.gui.api.ITexturesManager;
-	import com.tengu.gui.api.IWindowManager;
-	import com.tengu.gui.events.ClickEvent;
-	import com.tengu.gui.fills.ShapeFill;
-	import com.tengu.gui.tools.MarkupParser;
-	
-	import flash.display.DisplayObject;
-	import flash.display.Sprite;
-	import flash.events.Event;
-	import flash.events.MouseEvent;
-	import flash.geom.Point;
-	
-	[Style(name="padding_left")]
+    import com.tengu.calllater.api.IDeferredCaller;
+    import com.tengu.core.funcs.removeAllChildren;
+    import com.tengu.core.tengu_internal;
+    import com.tengu.gui.api.IScaleManager;
+    import com.tengu.gui.api.IStyleManager;
+    import com.tengu.gui.api.ITexturesManager;
+    import com.tengu.gui.api.IWindowManager;
+    import com.tengu.gui.events.ClickEvent;
+    import com.tengu.gui.fills.ShapeFill;
+    import com.tengu.gui.tools.MarkupParser;
+
+    import flash.display.DisplayObject;
+    import flash.display.Sprite;
+    import flash.events.Event;
+    import flash.events.MouseEvent;
+    import flash.geom.Point;
+
+    [Style(name="padding_left")]
 	[Style(name="padding_right")]
 	[Style(name="padding_top")]
 	[Style(name="padding_bottom")]
@@ -36,28 +35,9 @@ package com.tengu.gui.base
 	public class GUIComponent extends Sprite implements IDeferredCaller
 	{
 		private static const CLICK_POSITION_SQUARED_TRESHOLD:uint = 900;
-		
-		protected static function merge (...objects):Object
-		{
-			var count:uint = objects.length;
-			var next:Object;
-			if (count == 0)
-			{
-				return null;
-			}
-			var result:Object = objects[0];
-			for (var i:int = 1; i < count; i++)
-			{
-				next = objects[i];
-				for (var key:String in next)
-				{
-					if (result[key] == null)
-					{
-						result[key] = next[key];
-					}
-				}
-			}
-		}
+
+		private static const DEFAULT_WIDTH:uint			= 10;
+		private static const DEFAULT_HEIGHT:uint		= 10;
 
 		public static const VALIDATION_FLAG_ALL:String 		= "validate_all";
 		public static const VALIDATION_FLAG_SIZE:String 	= "validate_size";
@@ -65,18 +45,19 @@ package com.tengu.gui.base
 		public static const VALIDATION_FLAG_LAYOUT:String 	= "validate_layout";
 		public static const VALIDATION_FLAG_DISPLAY:String 	= "validate_display";
 		public static const VALIDATION_FLAG_DATA:String 	= "validate_data";
-		
-		private static const DEFAULT_WIDTH:uint			= 10;
-		private static const DEFAULT_HEIGHT:uint		= 10;
-		
-		private var mouseDownPos:Point			= null;
-		private var layouted:Boolean = true;
-		
+
+        public static function createFromMarkup (markup:XML):GUIComponent
+        {
+            return null;
+        }
+
 		tengu_internal var finalized:Boolean 		= false;
+
+        private var mouseDownPos:Point			= null;
+		private var layouted:Boolean = true;
 
 		protected var backgroundFill:ShapeFill 	= null;
 
-		
 		protected var markupParser:MarkupParser;
 
 		protected var styleObject:Object			= null;
@@ -323,7 +304,7 @@ package com.tengu.gui.base
 		
 		protected function createChildren ():void
 		{
-			markupParser = new MarkupParser();
+			markupParser = new MarkupParser(this);
 			markupParser.parse(markup);
 
 			mouseEnabled = false;
@@ -519,10 +500,9 @@ package com.tengu.gui.base
 				height = scaleManager.lodFactor * parseInt(styleValue);
 				return;
 			}
-
 		}
 		
-		protected final function callLater (method:Function, ...params):void
+		public final function callLater (method:Function, ...params):void
 		{
 			GUIManagersFactory.getCallLaterManager().callLater(this, method, params);
 		}

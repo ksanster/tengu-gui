@@ -11,6 +11,7 @@ package com.tengu.gui.managers
 	
 	public class StyleManager implements IStyleManager
 	{
+        public static const INHERITS_TAG:String = "inherits";
 		private var defaultStyles:Object		= null;
 		private var styles:Object 				= null;
 		private var textStyler:TextStyleManager = null;
@@ -37,16 +38,21 @@ package com.tengu.gui.managers
 			subRegisterMethods[StyleProtocol.TEXT_FORMAT_PREFIX] = textStyler.registerFormat;
 			subRegisterMethods[StyleProtocol.TEXT_CSS_PREFIX] = textStyler.registerCSSStyle;
 			subRegisterMethods[StyleProtocol.FILTER_PREFIX] = textStyler.registerFilter;
+			subRegisterMethods[StyleProtocol.DEFAULT_PREFIX] = registerDefaultStyle;
 		}
 		
 		public function registerStyle(name:String, value:Object):void
 		{
 			styles[name] = value;
 		}
+
+        public function registerDefaultStyle (fullClassName:String, value:Object):void
+        {
+            defaultStyles[fullClassName] = value;
+        }
 		
 		public function getDefaultStyle (component:GUIComponent):Object
 		{
-			var classDefinition:Object = Object(component).constructor;
 			var className:String = getQualifiedClassName(component);
 			return defaultStyles[className];
 		}
@@ -72,6 +78,7 @@ package com.tengu.gui.managers
 			{
 				parseCSS(css);
 			}
+            fillInheritedStyles();
 		}
 		
 		private function parseCSS(css:String):void
@@ -130,6 +137,44 @@ package com.tengu.gui.managers
 				}
 			}
 		}
+
+        private function fillInheritedStyles ():void
+        {
+            var parentStyle:Object;
+            for each (var style:Object in styles)
+            {
+                mergeHash(style, getParentStyleObject(style));
+            }
+        }
+
+        private function getParentStyleObject (style:Object):Object
+        {
+            if (style == null || !style.hasOwnProperty(INHERITS_TAG))
+            {
+                return null;
+            }
+            const parentStyle:String = style[INHERITS_TAG];
+            return mergeHash(styles[parentStyle], getParentStyleObject(parentStyle));
+        }
+
+        private function mergeHash (toHash:Object, ...hashes):Object
+        {
+            toHash ||= {};
+            for each (var hash:Object in hashes)
+            {
+                if (hash != null)
+                {
+                    for (var key:String in hash)
+                    {
+                        if (toHash[key] == null)
+                        {
+                            toHash[key] = hash[key];
+                        }
+                    }
+                }
+            }
+            return toHash;
+        }
 		
 		private function checkFormat (pairs:Array):void
 		{

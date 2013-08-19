@@ -12,7 +12,7 @@ package com.tengu.gui.controls.buttonbar
 	{
 		private var tabActiveComponent:GUIComponent = null;
 
-		protected var buttonBar:ButtonBar = null;
+		protected var buttonBar:ButtonGroup = null;
 		protected var labels:Vector.<String> 			= null;
 		protected var components:Vector.<GUIComponent> 	= null;
 		
@@ -93,7 +93,7 @@ package com.tengu.gui.controls.buttonbar
 		{
 			super.createChildren();
 			
-			buttonBar = new ButtonBar();
+			buttonBar = new ButtonGroup();
 			buttonBar.percentWidth = 100;
 			buttonBar.height = 15;
 			buttonBar.addEventListener(SelectedIndexChangeEvent.SELECTED_INDEX_CHANGE, onChangeSelectedIndex);
