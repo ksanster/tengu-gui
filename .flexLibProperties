@@ -1,14 +1,21 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
   <includeClasses>
-    <classEntry path="com.tengu.gui.core.GUIComponent"/>
-    <classEntry path="com.tengu.gui.core.text.Text"/>
-    <classEntry path="com.tengu.gui.core.text.TextStyleFormat"/>
-    <classEntry path="com.tengu.gui.core.controls.BaseButton"/>
-    <classEntry path="com.tengu.gui.core.fills.BitmapFill"/>
-    <classEntry path="com.tengu.gui.core.controls.TextButton"/>
-    <classEntry path="com.tengu.gui.core.GUIContainer"/>
-    <classEntry path="com.tengu.gui.core.uid.UidGenerator"/>
+    <classEntry path="com.tengu.gui.GUIRoot"/>
+    <classEntry path="com.tengu.gui.api.ITexturesManager"/>
+    <classEntry path="com.tengu.gui.api.IHintManager"/>
+    <classEntry path="com.tengu.gui.api.IWindowManager"/>
+    <classEntry path="com.tengu.gui.base.GUIManagersFactory"/>
+    <classEntry path="com.tengu.gui.api.ITextFormatManager"/>
+    <classEntry path="com.tengu.gui.hint.IHint"/>
+    <classEntry path="com.tengu.gui.managers.TexturesManager"/>
+    <classEntry path="com.tengu.gui.windows.tweens.OpenWindowTween"/>
+    <classEntry path="com.tengu.gui.windows.tweens.CloseWindowTween"/>
+    <classEntry path="com.tengu.gui.api.IStyleManager"/>
+    <classEntry path="com.tengu.gui.managers.StyleManager"/>
+    <classEntry path="com.tengu.gui.flash.FlashAdapterComponent"/>
+    <classEntry path="com.tengu.gui.controls.buttons.ContentButton"/>
+    <classEntry path="com.tengu.gui.tools.MarkupParser"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

@@ -3,14 +3,22 @@
    <compiler>
        <external-library-path>
            <path-element>@flex.sdk.dir@/frameworks/libs/player/10.0/playerglobal.swc</path-element>
+           <path-element>@libs.dir@/tengu-corelib.swc</path-element>
+           <path-element>@libs.dir@/tengu-log.swc</path-element>
+           <path-element>@libs.dir@/tengu-model.swc</path-element>
+           <path-element>@libs.dir@/tengu-resource.swc</path-element>
+           <path-element>@libs.dir@/tengu-tween.swc</path-element>
+           <path-element>@libs.dir@/tengu-di.swc</path-element>
        </external-library-path>
        <library-path>
-           <path-element>@flex.sdk.dir@/frameworks/libs/framework.swc</path-element>
-           <path-element>@libs.dir@/tengu-corelib.swc</path-element>
        </library-path>
        <source-path>
            <path-element>@source.main.dir@</path-element>
        </source-path>
+       <keep-as3-metadata>
+		   <name>PostConstruct</name>
+		   <name>Inject</name>
+		</keep-as3-metadata>
    </compiler>
    <output>@output.dir@/@output.swc.file@</output>
    <include-sources>
