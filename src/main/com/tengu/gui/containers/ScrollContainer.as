@@ -1,19 +1,17 @@
 package com.tengu.gui.containers
 {
-	import com.tengu.gui.base.GUIComponent;
-	import com.tengu.gui.enum.ScrollPolicy;
-	
-	import flash.display.DisplayObject;
-	import flash.events.Event;
-	import flash.events.MouseEvent;
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
-	import flash.utils.getTimer;
-	
-	import ru.mail.minigames.tween.TweenSystem;
-	import ru.mail.minigames.tween.Tweener;
-	
-	[Event(name="change", type="flash.events.Event")]
+    import com.tengu.gui.base.GUIComponent;
+    import com.tengu.gui.enum.ScrollPolicy;
+    import com.tengu.tween.Tweeny;
+
+    import flash.display.DisplayObject;
+    import flash.events.Event;
+    import flash.events.MouseEvent;
+    import flash.geom.Point;
+    import flash.geom.Rectangle;
+    import flash.utils.getTimer;
+
+    [Event(name="change", type="flash.events.Event")]
 	public class ScrollContainer extends GUIComponent
 	{
 		private static const MIN_TOUCH_TIME:uint = 30;
@@ -44,7 +42,6 @@ package com.tengu.gui.containers
 		
 		protected var offBound:int = 0;
 		
-		protected var tweener:Tweener = null;
 		protected var sViewport:DisplayObject = null;
 
 		
@@ -52,7 +49,7 @@ package com.tengu.gui.containers
 		{
 			if (sViewport != null)
 			{
-				TweenSystem.removeTweener(sViewport);
+                Tweeny.killOf(this);
 				endDrag();
 				removeChild(sViewport);
 			}
@@ -146,8 +143,8 @@ package com.tengu.gui.containers
 			
 			if (targetX != viewportX || targetY != viewportY)
 			{
-				tweener.removeAllTweens();
-				tweener.addTween(EASE_TIME, {viewportX:targetX, viewportY:targetY});
+                Tweeny.killOf(this);
+                Tweeny.create(this).during(EASE_TIME).to({viewportX:targetX, viewportY:targetY}).start();
 				return true;
 			}
 			return false;
@@ -208,15 +205,13 @@ package com.tengu.gui.containers
 			
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			addEventListener(Event.REMOVED_FROM_STAGE, onRemovedFromStage);
-			
-			tweener = TweenSystem.getTweener(this);
 		}
 		
 		protected override function dispose():void
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			removeEventListener(Event.REMOVED_FROM_STAGE, onRemovedFromStage);
-			tweener.removeAllTweens();
+            Tweeny.killOf(this);
 			
 			if (inFreeSlide)
 			{
@@ -224,8 +219,6 @@ package com.tengu.gui.containers
 			}
 			if (sViewport != null)
 			{
-				TweenSystem.removeTweener(this);
-				tweener = null;
 				sViewport = null;
 			}
 			super.dispose();
@@ -280,8 +273,8 @@ package com.tengu.gui.containers
 			}
 			
 			touchStartTime = getTimer();
-			
-			tweener.removeAllTweens();
+
+            Tweeny.killOf(this);
 			endFreeSlide();
 			
 			inDrag = true;
@@ -322,16 +315,19 @@ package com.tengu.gui.containers
 			finalizeDrag();
 		}
 		
-		private function onAddedToStage(event:Event):void
+		protected override function onAddedToStage(event:Event):void
 		{
+            super.onAddedToStage(event);
 			stage.addEventListener(MouseEvent.MOUSE_DOWN, onTouchBegin);
 			
 		}
-		
-		private function onRemovedFromStage(event:Event):void
+
+		protected override function onRemovedFromStage(event:Event):void
 		{
 			stage.removeEventListener(MouseEvent.MOUSE_DOWN, onTouchBegin);
 			endDrag();
+
+            super.onRemovedFromStage(event);
 		}
 		
 		private function onEnterFrame(event:Event):void

@@ -2,7 +2,7 @@
 <flex-config>
    <compiler>
        <external-library-path>
-           <path-element>@flex.sdk.dir@/frameworks/libs/player/10.0/playerglobal.swc</path-element>
+           <path-element>@flex.sdk.dir@/frameworks/libs/player/11.1/playerglobal.swc</path-element>
            <path-element>@libs.dir@/tengu-corelib.swc</path-element>
            <path-element>@libs.dir@/tengu-log.swc</path-element>
            <path-element>@libs.dir@/tengu-model.swc</path-element>

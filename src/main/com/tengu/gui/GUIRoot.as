@@ -30,14 +30,6 @@ package com.tengu.gui
 		public function GUIRoot()
 		{
 			super();
-			if (stage != null)
-			{
-				configure();
-			}
-			else
-			{
-				addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
-			}
 		}
 		
 		private function configure():void
@@ -91,9 +83,9 @@ package com.tengu.gui
 			windowManager.setSize(width, height);
 		}
 		
-		private function onAddedToStage(event:Event):void
+		protected override function onAddedToStage(event:Event):void
 		{
-			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+            super.onAddedToStage(event);
 			configure();
 		}		
 		

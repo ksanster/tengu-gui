@@ -141,7 +141,10 @@ package com.tengu.gui.layouts
 			
 			noPaddingWidth	= target.width - paddingLeft - paddingRight;
 			noPaddingHeight = target.height - paddingTop - paddingBottom;
-			
+
+            bounds.width = target.width;
+            bounds.height = target.height;
+
 			contentWidth  = 0;
 			contentHeight = 0;
 		}

@@ -1,27 +1,21 @@
 package com.tengu.gui.managers
 {
-	import com.tengu.gui.api.IWindowManager;
-	import com.tengu.gui.containers.GUIContainer;
-	import com.tengu.gui.enum.WindowPlacementType;
-	import com.tengu.gui.layouts.WindowLayout;
-	import com.tengu.gui.windows.GUIWindow;
-	import com.tengu.gui.windows.IWindowData;
-	import com.tengu.gui.windows.tweens.CloseWindowTween;
-	import com.tengu.gui.windows.tweens.OpenWindowTween;
-	
-	import flash.display.DisplayObject;
-	import flash.display.Graphics;
-	import flash.display.Sprite;
-	import flash.events.Event;
-	import flash.events.MouseEvent;
-	import flash.filters.BlurFilter;
-	import flash.filters.GlowFilter;
-	
-	import ru.mail.minigames.tween.Tween;
-	import ru.mail.minigames.tween.TweenSystem;
-	import ru.mail.minigames.tween.Tweener;
+    import com.tengu.gui.api.IWindowManager;
+    import com.tengu.gui.containers.GUIContainer;
+    import com.tengu.gui.enum.WindowPlacementType;
+    import com.tengu.gui.layouts.WindowLayout;
+    import com.tengu.gui.windows.GUIWindow;
+    import com.tengu.gui.windows.IWindowData;
 
-	public class GuiWindowManager extends GUIContainer implements IWindowManager
+    import flash.display.DisplayObject;
+    import flash.display.Graphics;
+    import flash.display.Sprite;
+    import flash.events.Event;
+    import flash.events.MouseEvent;
+    import flash.filters.BlurFilter;
+    import flash.filters.GlowFilter;
+
+    public class GuiWindowManager extends GUIContainer implements IWindowManager
 	{
 		private static const BLUR:BlurFilter 		= new BlurFilter();
 		private static const SHADOW:GlowFilter 		= new GlowFilter(0x000000, .3, 15, 15, 2, 3);
@@ -113,48 +107,21 @@ package com.tengu.gui.managers
 		
 		private function animateOpen (window:GUIWindow):void
 		{
-			var tweener:Tweener = null;
-			var tween:Tween 	= null;
 			if (!window.animated || window.placement != WindowPlacementType.CENTER)
 			{
 				window.filters = SHADOW_FILTERS;
 				return;
 			}
-			tweener = TweenSystem.getTweener(window);
-			tweener.removeAllTweens();
-			tween = tweener.addTween(18, {}, OpenWindowTween.OPEN_WINDOW_TWEEN);
-			tween.addCompleteHandler(onCompleteOpen, [tween]);
-		}
-		
-		private function onCompleteOpen (tween:Tween):void
-		{
-			var window:GUIWindow = tween.target as GUIWindow;
-			tween.removeCompleteHandler(onCompleteOpen);
-			window.filters = SHADOW_FILTERS;
 		}
 		
 		private function animateClose (window:GUIWindow):void
 		{
-			var tweener:Tweener = null;
-			var tween:Tween 	= null;
-			if (!window.animated || window.placement != WindowPlacementType.CENTER)
-			{
+//			if (!window.animated || window.placement != WindowPlacementType.CENTER)
+//			{
 				removeChild(window);
 				window.finalize();
 				return;
-			}
-			tweener = TweenSystem.getTweener(window);
-			tweener.removeAllTweens();
-			tween = tweener.addTween(18, {}, CloseWindowTween.CLOSE_WINDOW_TWEEN);
-			tween.addCompleteHandler(onCompleteClose, [tween]);
-		}
-		
-		private function onCompleteClose (tween:Tween):void
-		{
-			var window:GUIWindow = tween.target as GUIWindow;
-			tween.removeCompleteHandler(onCompleteClose);
-			removeChild(window);
-			window.finalize();
+//			}
 		}
 		
 		private function updateShadowVisibility ():void
@@ -344,12 +311,12 @@ package com.tengu.gui.managers
 		{
 			super.updateLayout();
 		}
-		
-		
-		private function onAddedToStage(event:Event):void
-		{
-			stage.addEventListener(MouseEvent.MOUSE_UP, onClickStage, true);
-		}
+
+
+        protected override function onAddedToStage(event:Event):void
+        {
+            stage.addEventListener(MouseEvent.MOUSE_UP, onClickStage, true);
+        }
 		
 		private function onClickStage(event:MouseEvent):void
 		{
