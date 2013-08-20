@@ -6,7 +6,7 @@ package com.tengu.gui.layouts
 	import flash.display.DisplayObject;
 	import flash.geom.Rectangle;
 
-	public class TilelLayout extends BaseLayout
+	public class TilelHorizontalLayout extends BaseLayout
 	{
 		private var autoGap:Boolean = false;
 		
@@ -22,7 +22,7 @@ package com.tengu.gui.layouts
 			autoGap = value;
 		}
 		
-		public function TilelLayout()
+		public function TilelHorizontalLayout()
 		{
 			super();
 		}

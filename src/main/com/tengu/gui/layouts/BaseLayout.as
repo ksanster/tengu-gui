@@ -4,11 +4,11 @@ package com.tengu.gui.layouts
 	import com.tengu.gui.containers.GUIContainer;
 	import com.tengu.gui.enum.HorizontalAlign;
 	import com.tengu.gui.enum.VerticalAlign;
+	import com.tengu.gui.markup.api.IMarkable;
 	
 	import flash.geom.Rectangle;
-	import flash.utils.Dictionary;
 
-	public class BaseLayout implements ILayout
+	public class BaseLayout implements ILayout, IMarkable
 	{
 		protected var hAlign:String = HorizontalAlign.CENTER;
 		protected var vAlign:String   = VerticalAlign.TOP;

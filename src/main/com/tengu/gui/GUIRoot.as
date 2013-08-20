@@ -6,13 +6,10 @@ package com.tengu.gui
 	import com.tengu.gui.base.GUIComponent;
 	import com.tengu.gui.base.GUIManagersFactory;
 	import com.tengu.gui.managers.GuiWindowManager;
-	import com.tengu.gui.managers.MarkupManager;
 	import com.tengu.gui.managers.ScaleManager;
 	import com.tengu.gui.managers.StyleManager;
 	import com.tengu.gui.managers.TexturesManager;
-	import com.tengu.gui.windows.tweens.CloseWindowTween;
-	import com.tengu.gui.windows.tweens.OpenWindowTween;
-	import com.tengu.tween.TweenSystem;
+	import com.tengu.gui.markup.MarkupBuilderFactory;
 	
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
@@ -59,7 +56,6 @@ package com.tengu.gui
 			addChild(componentsContainer);
 			
 			initializeManagers();
-			initializeTweener();
 			initializeGUI();
 			updateSize();
 		}
@@ -69,12 +65,6 @@ package com.tengu.gui
 			//Empty
 		}
 		
-		protected function initializeTweener ():void
-		{
-			TweenSystem.registerTween(OpenWindowTween.OPEN_WINDOW_TWEEN, OpenWindowTween.create);
-			TweenSystem.registerTween(CloseWindowTween.CLOSE_WINDOW_TWEEN, CloseWindowTween.create);
-		}
-		
 		protected function initializeManagers ():void
 		{
 			GUIManagersFactory.tengu_internal::registerCallLaterManager(CallLaterManager);
@@ -82,6 +72,7 @@ package com.tengu.gui
 			GUIManagersFactory.tengu_internal::registerWindowManager(GuiWindowManager);
 			GUIManagersFactory.tengu_internal::registerStyleManager(StyleManager);
 			GUIManagersFactory.tengu_internal::registerScaleManager(ScaleManager);
+			GUIManagersFactory.tengu_internal::registerMarkupFactory(MarkupBuilderFactory);
 			
 			GUIManagersFactory.getCallLaterManager().stage = stage;
 			

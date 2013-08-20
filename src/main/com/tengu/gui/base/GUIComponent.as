@@ -1,16 +1,17 @@
 package com.tengu.gui.base
 {
     import com.tengu.calllater.api.IDeferredCaller;
-    import com.tengu.core.funcs.removeAllChildren;
     import com.tengu.core.tengu_internal;
+    import com.tengu.core.funcs.removeAllChildren;
     import com.tengu.gui.api.IScaleManager;
     import com.tengu.gui.api.IStyleManager;
     import com.tengu.gui.api.ITexturesManager;
     import com.tengu.gui.api.IWindowManager;
     import com.tengu.gui.events.ClickEvent;
     import com.tengu.gui.fills.ShapeFill;
-    import com.tengu.gui.tools.MarkupParser;
-
+    import com.tengu.gui.markup.api.IMarkable;
+    import com.tengu.gui.markup.api.IMarkupBuilderFactory;
+    
     import flash.display.DisplayObject;
     import flash.display.Sprite;
     import flash.events.Event;
@@ -32,7 +33,7 @@ package com.tengu.gui.base
 	[Event(name="layoutChange", type="com.tengu.gui.events.LayoutEvent")]
 	[Event(name="guiClick", type="com.tengu.gui.events.ClickEvent")]
 	
-	public class GUIComponent extends Sprite implements IDeferredCaller
+	public class GUIComponent extends Sprite implements IDeferredCaller, IMarkable
 	{
 		private static const CLICK_POSITION_SQUARED_TRESHOLD:uint = 900;
 
@@ -46,19 +47,12 @@ package com.tengu.gui.base
 		public static const VALIDATION_FLAG_DISPLAY:String 	= "validate_display";
 		public static const VALIDATION_FLAG_DATA:String 	= "validate_data";
 
-        public static function createFromMarkup (markup:XML):GUIComponent
-        {
-            return null;
-        }
-
 		tengu_internal var finalized:Boolean 		= false;
 
         private var mouseDownPos:Point			= null;
 		private var layouted:Boolean = true;
 
 		protected var backgroundFill:ShapeFill 	= null;
-
-		protected var markupParser:MarkupParser;
 
 		protected var styleObject:Object			= null;
 		protected var validationFlags:Object		= null;
@@ -97,14 +91,14 @@ package com.tengu.gui.base
 			return GUIManagersFactory.getScaleManager();
 		}
 		
+		protected final function get markupFactory ():IMarkupBuilderFactory
+		{
+			return GUIManagersFactory.getMarkupFactory();
+		}
+		
 		protected function get defaultStyle ():Object
 		{
 			return styleManager.defaultTextStyle;
-		}
-		
-		protected function get markup ():XML
-		{
-			return null;
 		}
 		
 		public function get minWidth ():uint
@@ -304,9 +298,6 @@ package com.tengu.gui.base
 		
 		protected function createChildren ():void
 		{
-			markupParser = new MarkupParser(this);
-			markupParser.parse(markup);
-
 			mouseEnabled = false;
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			addEventListener(Event.REMOVED_FROM_STAGE, onRemovedFromStage);
@@ -316,9 +307,6 @@ package com.tengu.gui.base
 		
 		protected function dispose ():void
 		{
-			markupParser.finalize();
-			markupParser = null;
-			
 			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			removeEventListener(Event.REMOVED_FROM_STAGE, onRemovedFromStage);
 			removeEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);

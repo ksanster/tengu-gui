@@ -15,7 +15,15 @@
     <classEntry path="com.tengu.gui.managers.StyleManager"/>
     <classEntry path="com.tengu.gui.flash.FlashAdapterComponent"/>
     <classEntry path="com.tengu.gui.controls.buttons.ContentButton"/>
-    <classEntry path="com.tengu.gui.tools.MarkupParser"/>
+    <classEntry path="com.tengu.gui.markup.api.IMarkable"/>
+    <classEntry path="com.tengu.gui.markup.api.IMarkupFactory"/>
+    <classEntry path="com.tengu.gui.layouts.TileVerticalLayout"/>
+    <classEntry path="com.tengu.gui.markup.api.IMarkupParser"/>
+    <classEntry path="com.tengu.gui.markup.api.IMarkupBuilder"/>
+    <classEntry path="com.tengu.gui.markup.api.IMarkupBuilderFactory"/>
+    <classEntry path="com.tengu.gui.markup.MarkupParser"/>
+    <classEntry path="com.tengu.gui.markup.builders.BaseMarkupBuilder"/>
+    <classEntry path="com.tengu.gui.markup.MarkupBuilderFactory"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

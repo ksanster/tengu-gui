@@ -8,6 +8,7 @@ package com.tengu.gui.base
 	import com.tengu.gui.api.IStyleManager;
 	import com.tengu.gui.api.ITexturesManager;
 	import com.tengu.gui.api.IWindowManager;
+	import com.tengu.gui.markup.api.IMarkupBuilderFactory;
 
 	public class GUIManagersFactory
 	{
@@ -16,6 +17,7 @@ package com.tengu.gui.base
 		private static var windowManagerClass:Class		= null;
 		private static var styleManagerClass:Class		= null;
 		private static var scaleManagerClass:Class		= null;
+		private static var markupFactoryClass:Class		= null;
 		
 		
 		private static var callLaterManager:ICallLaterManager 	= null;
@@ -23,7 +25,7 @@ package com.tengu.gui.base
 		private static var windowManager:IWindowManager			= null;
 		private static var styleManager:IStyleManager 			= null;
 		private static var scaleManager:IScaleManager 			= null;
-		
+		private static var markupFactory:IMarkupBuilderFactory  = null; 
 		
 		public function GUIManagersFactory()
 		{
@@ -53,6 +55,11 @@ package com.tengu.gui.base
 		tengu_internal static function registerStyleManager (value:Class):void
 		{
 			styleManagerClass = value;
+		}
+		
+		tengu_internal static function registerMarkupFactory (value:Class):void
+		{
+			markupFactoryClass = value;
 		}
 		
 		private static function getManagerInstance (managerClass:Class):*
@@ -107,6 +114,15 @@ package com.tengu.gui.base
 				styleManager = getManagerInstance(styleManagerClass) as IStyleManager;
 			}
 			return styleManager;
+		}
+		
+		public static function getMarkupFactory():IMarkupBuilderFactory
+		{
+			if (markupFactory == null)
+			{
+				markupFactory = getManagerInstance(markupFactoryClass) as IMarkupBuilderFactory;
+			}
+			return markupFactory;
 		}
 	}
 }
