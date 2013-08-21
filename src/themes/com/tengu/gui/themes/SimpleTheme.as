@@ -14,26 +14,26 @@ package com.tengu.gui.themes
 	[Event(name="init", type="flash.events.Event")]
 	public class SimpleTheme extends EventDispatcher implements ITheme
 	{
-		[Embed(	source="/../assets/fonts/arial.TTF", 
+		[Embed(	source="/../../assets/fonts/arial.TTF",
 				fontName="Verdana", fontFamily="Verdana", fontStyle="regular",
 				mimeType="application/x-font-truetype", embedAsCFF="false", fontWeight="normal",
 				unicodeRange="U+0020-U+007e,U+0400-U+0457")]
 		public static var fontRegular:Class;
 		
 		
-		[Embed(	source="/../assets/fonts/arialbd.TTF", 
+		[Embed(	source="/../../assets/fonts/arialbd.TTF",
 				fontName="Verdana", fontFamily="Verdana", fontStyle="bold",
 				mimeType="application/x-font-truetype", embedAsCFF="false", fontWeight="bold",
 				unicodeRange="U+0020-U+007e,U+0400-U+0457")]
 		public static var fontBold:Class;
 		
-		[Embed(source="/../assets/assets.swf",mimeType="application/octet-stream")]
+		[Embed(source="/../../assets/assets.swf",mimeType="application/octet-stream")]
 		public static const assetsClass:Class;
 
-		[Embed(source="/../assets/styles.css",mimeType="application/octet-stream")]
+		[Embed(source="/../../assets/styles.css",mimeType="application/octet-stream")]
 		public static const stylesClass:Class;
 
-		[Embed(source="/../assets/fills.xml",mimeType="application/octet-stream")]
+		[Embed(source="/../../assets/fills.xml",mimeType="application/octet-stream")]
 		public static const fillsClass:Class;
 		
 		private var loader:Loader = null;

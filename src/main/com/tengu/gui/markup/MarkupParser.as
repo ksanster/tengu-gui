@@ -41,10 +41,8 @@ package com.tengu.gui.markup
 		public function parse (markup:XML):void
 		{
 			var alias:String = String(markup.localName());
-			var childBuilder:IMarkupBuilder
 			var builder:IMarkupBuilder = builderFactory.getBuilderByAlias(alias);
-			var children:XMLList = markup.children();
-			
+
 			builder.build(markup, this, target);
 		}
 		

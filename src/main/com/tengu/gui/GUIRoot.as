@@ -1,23 +1,23 @@
 package com.tengu.gui
 {
-	import com.tengu.calllater.impl.CallLaterManager;
-	import com.tengu.core.tengu_internal;
-	import com.tengu.di.api.IInjector;
-	import com.tengu.gui.base.GUIComponent;
-	import com.tengu.gui.base.GUIManagersFactory;
-	import com.tengu.gui.managers.GuiWindowManager;
-	import com.tengu.gui.managers.ScaleManager;
-	import com.tengu.gui.managers.StyleManager;
-	import com.tengu.gui.managers.TexturesManager;
-	import com.tengu.gui.markup.MarkupBuilderFactory;
-	import com.tengu.gui.themes.api.ITheme;
-	
-	import flash.display.DisplayObjectContainer;
-	import flash.display.Sprite;
-	import flash.events.Event;
-	import flash.text.Font;
-	
-	public class GUIRoot extends GUIComponent
+    import com.tengu.calllater.impl.CallLaterManager;
+    import com.tengu.core.tengu_internal;
+    import com.tengu.di.api.IInjector;
+    import com.tengu.gui.base.GUIComponent;
+    import com.tengu.gui.base.GUIManagersFactory;
+    import com.tengu.gui.managers.GuiWindowManager;
+    import com.tengu.gui.managers.ScaleManager;
+    import com.tengu.gui.managers.StyleManager;
+    import com.tengu.gui.managers.TexturesManager;
+    import com.tengu.gui.markup.MarkupBuilderFactory;
+    import com.tengu.gui.themes.api.ITheme;
+
+    import flash.display.DisplayObjectContainer;
+    import flash.display.Sprite;
+    import flash.events.Event;
+    import flash.text.Font;
+
+    public class GUIRoot extends GUIComponent
 	{
 		private var componentsContainer:Sprite = null;
 		
@@ -56,7 +56,7 @@ package com.tengu.gui
 		
 		protected override function initialize():void
 		{
-			//Empty
+            addEventListener(Event.ADDED_TO_STAGE, onAdded);
 		}
 		
 		protected function initializeManagers ():void
@@ -69,7 +69,7 @@ package com.tengu.gui
 			GUIManagersFactory.tengu_internal::registerMarkupFactory(MarkupBuilderFactory);
 			
 			GUIManagersFactory.getCallLaterManager().stage = stage;
-			
+
 			(windowManager as GUIComponent).setSize(stage.stageWidth, stage.stageHeight);
 			addChild(windowManager as GUIComponent);
 		}
@@ -99,9 +99,9 @@ package com.tengu.gui
 			textureManager.configure(theme.fills);
 		}
 		
-		protected override function onAddedToStage(event:Event):void
+		private function onAdded(event:Event):void
 		{
-            super.onAddedToStage(event);
+            removeEventListener(Event.ADDED_TO_STAGE, onAdded);
 			configure();
 		}		
 		
