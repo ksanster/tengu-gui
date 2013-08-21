@@ -13,14 +13,14 @@ package com.tengu.gui.markup
 		
 		private var elementsById:Object;
 		
-		public function MarkupParser()
-		{
-			elementsById = {};
-		}
-		
 		public function set factory(value:IMarkupBuilderFactory):void
 		{
 			builderFactory = value;
+		}
+		
+		public function get factory():IMarkupBuilderFactory 
+		{
+			return builderFactory;
 		}
 		
 		public function set target(value:IMarkable):void
@@ -33,6 +33,11 @@ package com.tengu.gui.markup
 			return parserTarget;
 		}
 		
+		public function MarkupParser()
+		{
+			elementsById = {};
+		}
+		
 		public function parse (markup:XML):void
 		{
 			var alias:String = String(markup.localName());
@@ -43,9 +48,14 @@ package com.tengu.gui.markup
 			builder.build(markup, this, target);
 		}
 		
+		public function addElement(id:String, element:IMarkable):void
+		{
+			elementsById[id] = element;
+		}
+		
 		public function getElementById(id:String):IMarkable
 		{
-			if (elementsById[id] = null)
+			if (elementsById[id] == null)
 			{
 				LogFactory.getLogger(this).error("Element not found. id=", id);
 			}

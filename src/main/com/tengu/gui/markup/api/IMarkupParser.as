@@ -11,7 +11,7 @@ package com.tengu.gui.markup.api
 		function parse (markup:XML):void;
 		
 		function getElementById (id:String):IMarkable;
-		function addElement (id:String, element:IMarkable);
+		function addElement (id:String, element:IMarkable):void;
 		
 		function finalize ():void;
 	}

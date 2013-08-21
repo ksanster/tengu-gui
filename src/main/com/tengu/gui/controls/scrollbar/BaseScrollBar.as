@@ -292,7 +292,7 @@ package com.tengu.gui.controls.scrollbar
 			scrollPosition -= scrollStep / (maxValue - minValue);	
 			normalizeScroll();
 			calcCurrentValue();
-			invalidateDisplay();
+			invalidate(VALIDATION_FLAG_DISPLAY);
 			dispatchChange();
 		}
 		
@@ -301,7 +301,7 @@ package com.tengu.gui.controls.scrollbar
 			scrollPosition += scrollStep / (maxValue - minValue);	
 			normalizeScroll();
 			calcCurrentValue();
-			invalidateDisplay();
+			invalidate(VALIDATION_FLAG_DISPLAY);
 			dispatchChange();
 		}
 		
@@ -334,7 +334,7 @@ package com.tengu.gui.controls.scrollbar
 			scrollPosition +=  -normalDelta * scrollStep / (maxValue - minValue);	
 			normalizeScroll();
 			calcCurrentValue();
-			invalidateDisplay();
+			invalidate(VALIDATION_FLAG_DISPLAY);
 			dispatchChange();
 		}
 	}

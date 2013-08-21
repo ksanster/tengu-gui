@@ -1,26 +1,30 @@
 package com.tengu.gui.managers
 {
 	import com.tengu.gui.api.IStyleManager;
-	import com.tengu.gui.base.GUIComponent;
 	import com.tengu.gui.resources.text.StyleProtocol;
 	
 	import flash.text.TextField;
 	import flash.text.TextFormat;
-	import flash.utils.Dictionary;
-	import flash.utils.getQualifiedClassName;
 	
 	public class StyleManager implements IStyleManager
 	{
         public static const INHERITS_TAG:String = "inherits";
-		private var defaultStyles:Object		= null;
+		
 		private var styles:Object 				= null;
 		private var textStyler:TextStyleManager = null;
 
 		private var subRegisterMethods:Object = null;
 		
+		private var defaultText:String = "DefaultText"; 
+		
 		public function get defaultTextStyle():String 
 		{
-			return "defaultStyle";
+			return defaultText;
+		}
+		
+		public function set defaultTextStyle(value:String):void 
+		{
+			defaultText = value;
 		}
 		
 		public function set scaleFactor(value:Number):void 
@@ -32,13 +36,11 @@ package com.tengu.gui.managers
 		{
 			textStyler = new TextStyleManager();
 			styles 	= {};
-			defaultStyles = {};
 			
 			subRegisterMethods = {};
-			subRegisterMethods[StyleProtocol.TEXT_FORMAT_PREFIX] = textStyler.registerFormat;
-			subRegisterMethods[StyleProtocol.TEXT_CSS_PREFIX] = textStyler.registerCSSStyle;
-			subRegisterMethods[StyleProtocol.FILTER_PREFIX] = textStyler.registerFilter;
-			subRegisterMethods[StyleProtocol.DEFAULT_PREFIX] = registerDefaultStyle;
+			subRegisterMethods[StyleProtocol.SELECTOR_TYPE_TEXT_FORMAT] = textStyler.registerFormat;
+			subRegisterMethods[StyleProtocol.SELECTOR_TYPE_CSS_FORMAT] = textStyler.registerCSSStyle;
+			subRegisterMethods[StyleProtocol.SELECTOR_TYPE_FILTER] = textStyler.registerFilter;
 		}
 		
 		public function registerStyle(name:String, value:Object):void
@@ -46,17 +48,6 @@ package com.tengu.gui.managers
 			styles[name] = value;
 		}
 
-        public function registerDefaultStyle (fullClassName:String, value:Object):void
-        {
-            defaultStyles[fullClassName] = value;
-        }
-		
-		public function getDefaultStyle (component:GUIComponent):Object
-		{
-			var className:String = getQualifiedClassName(component);
-			return defaultStyles[className];
-		}
-		
 		public function getStyle(name:String):Object
 		{
 			return styles[name];
@@ -90,6 +81,7 @@ package com.tengu.gui.managers
 			var suffix:String;
 			var selector:Object;
 			var subRegisterMethod:Function;
+			var selectorType:String;
 			
 			css = css.replace(/\s*([@{}:;,]|\)\s|\s\()\s*|\/\*([^*\\\\]|\*(?!\/))+\*\/|[\'\"\n\r\t]|(px)/g, '$1');
 			blocks = css.match(/[^{]*\{([^}]*)*}/g);
@@ -119,22 +111,14 @@ package com.tengu.gui.managers
 					selector[parts.shift()] = parts.pop();
 				}
 				
-				parts = prefix.split(".");
-				
-				if (parts.length < 2)
+				if (selector.hasOwnProperty(StyleProtocol.SELECTOR_TYPE))
 				{
-					registerStyle(prefix, selector);
+					selectorType = selector[StyleProtocol.SELECTOR_TYPE];
+					delete selector[StyleProtocol.SELECTOR_TYPE];
+					subRegisterMethod = subRegisterMethods[ selectorType ];
+					subRegisterMethod(prefix, selector);
 				}
-				else
-				{
-					prefix = parts.shift();
-					subRegisterMethod = subRegisterMethods[ prefix ];
-					if (subRegisterMethod != null)
-					{
-						prefix = parts.join(".");
-						subRegisterMethod(prefix, selector);
-					}
-				}
+				registerStyle(prefix, selector);
 			}
 		}
 

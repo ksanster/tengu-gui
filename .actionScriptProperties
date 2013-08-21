@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <actionScriptProperties analytics="false" mainApplicationPath="tengu-gui.as" projectUUID="14922278-0a10-4f6e-ac7e-e21291dd4eb9" version="11">
-  <compiler additionalCompilerArguments="-locale en_US" autoRSLOrdering="true" copyDependentFiles="false" flexSDK="Flex 4.1" fteInMXComponents="false" generateAccessible="false" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="false" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="bin-internal" removeUnusedRSL="true" sourceFolderPath="src/main" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="false" useDebugRSLSwfs="true" useFlashSDK="false" verifyDigests="true" warn="true">
-    <compilerSourcePath/>
+  <compiler additionalCompilerArguments="-locale en_US" autoRSLOrdering="true" copyDependentFiles="false" flexSDK="Flex 4.6.0 (build 23201)" fteInMXComponents="false" generateAccessible="false" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="false" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="bin-internal" removeUnusedRSL="true" sourceFolderPath="src/main" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="false" useDebugRSLSwfs="true" useFlashSDK="false" verifyDigests="true" warn="true">
+    <compilerSourcePath>
+      <compilerSourcePathEntry kind="1" linkType="1" path="src/themes"/>
+    </compilerSourcePath>
     <libraryPath defaultLinkType="0">
       <libraryPathEntry kind="4" path="">
         <excludedEntries>

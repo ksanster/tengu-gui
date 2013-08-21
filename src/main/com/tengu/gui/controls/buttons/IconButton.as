@@ -26,6 +26,11 @@ package com.tengu.gui.controls.buttons
 		protected var iconPos:String;
 		protected var iconBitmap:Bitmap;
 		
+		protected override function get defaultStyleName():String
+		{
+			return "IconButton";
+		}
+		
 		public function set icon(value:String):void 
 		{
 			if (iconSkin == value)

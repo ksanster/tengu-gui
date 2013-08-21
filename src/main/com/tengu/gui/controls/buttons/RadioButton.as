@@ -11,6 +11,11 @@ package com.tengu.gui.controls.buttons
 
     public class RadioButton extends IconButton
     {
+		protected override function get defaultStyleName():String
+		{
+			return "Radio";
+		}
+		
         public function RadioButton ()
         {
             super();

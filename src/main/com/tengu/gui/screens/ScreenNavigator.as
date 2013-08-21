@@ -2,14 +2,13 @@ package com.tengu.gui.screens
 {
 	import com.tengu.core.funcs.removeAllChildren;
 	import com.tengu.gui.base.GUIComponent;
+	import com.tengu.tween.Tween;
+	import com.tengu.tween.Tweeny;
+	import com.tengu.tween.api.ITween;
+	import com.tengu.tween.plugins.DisplayCoordsTween;
 	
 	import flash.display.Sprite;
 	import flash.events.Event;
-	
-	import ru.mail.minigames.tween.Tween;
-	import ru.mail.minigames.tween.TweenSystem;
-	import ru.mail.minigames.tween.Tweener;
-	import ru.mail.minigames.tween.enum.TweenType;
 	
 	public class ScreenNavigator extends GUIComponent
 	{
@@ -25,9 +24,6 @@ package com.tengu.gui.screens
 		
 		private var screenToReturn:String 	= null;
 		private var directionToReturn:String = null;
-		
-		private var tweener:Tweener = null;
-		
 		
 		public function get currentScreenId():String 
 		{
@@ -75,8 +71,6 @@ package com.tengu.gui.screens
 			holder.mouseEnabled = false;
 			addChild(holder);
 			
-			tweener = TweenSystem.getTweener(holder);
-			
 			screenClasses 	= {};
 			screenHash		= {};
 			screenParams	= {};
@@ -91,14 +85,12 @@ package com.tengu.gui.screens
 				screen.finalize();
 			}
 			
-			tweener.removeAllTweens();
-			TweenSystem.removeTweener(holder)
+			Tweeny.killOf(holder);
 
 			activeScreen 	= null;
 			screenClasses 	= null;
 			screenParams 	= null;
 			screenHash 		= null;
-			tweener			= null;
 			
 			super.dispose();
 		}
@@ -130,7 +122,7 @@ package com.tengu.gui.screens
 			activeScreenId = id;
 			directionToReturn = ScreenFlipDirection.inverse(direction);
 
-			tweener.removeAllTweens();
+			Tweeny.killOf(holder);
 			removeAllChildren(holder);
 
 			var screen:GUIComponent = createScreen(id);
@@ -160,8 +152,11 @@ package com.tengu.gui.screens
 			
 			holder.addChild(screen);
 			holder.addChild(activeScreen);
-			var tween:Tween = tweener.addTween(TWEEN_TIME, {x:0, y:0}, TweenType.DISPLAY);
-			tween.addCompleteHandler(onCompleteTween, [tween, screen]);
+			Tweeny.create(holder, DisplayCoordsTween.create).
+					during(TWEEN_TIME).
+					to({x:0, y:0}).
+					onComplete(onCompleteTween, screen).
+					start();
 		}
 		
 		public function setActiveScreen (id:String):void
@@ -170,7 +165,7 @@ package com.tengu.gui.screens
 			activeScreenId = id;
 			directionToReturn = null;
 			
-			tweener.removeAllTweens();
+			Tweeny.killOf(holder);
 			removeAllChildren(holder);
 			activeScreen = createScreen(id);
 			activeScreen.draw();
@@ -191,16 +186,15 @@ package com.tengu.gui.screens
 			}
 		}
 		
-		private function onCompleteTween(tween:Tween, screen:GUIComponent):void
+		private function onCompleteTween(screen:GUIComponent):void
 		{
-			tween.removeCompleteHandler(onCompleteTween);
 			holder.removeChild(activeScreen);
 			activeScreen = screen;
 		}
 
 		private function onInvokeScreen(event:ScreenNavigatorEvent):void
 		{
-			if (tweener.hasTweens())
+			if (Tweeny.hasTween(holder))
 			{
 				return;
 			}

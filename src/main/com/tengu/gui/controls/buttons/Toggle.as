@@ -3,6 +3,7 @@ package com.tengu.gui.controls.buttons
 	import com.tengu.gui.base.GUIComponent;
 	import com.tengu.gui.fills.ColorFloodFill;
 	import com.tengu.gui.fills.ShapeFill;
+	import com.tengu.tween.Tweeny;
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
@@ -13,9 +14,6 @@ package com.tengu.gui.controls.buttons
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
-	
-	import ru.mail.minigames.tween.TweenSystem;
-	import ru.mail.minigames.tween.Tweener;
 	
 	[Style(name="track_on_fill")]
 	[Style(name="track_off_fill")]
@@ -41,8 +39,6 @@ package com.tengu.gui.controls.buttons
 		
 		private var offTrackFill:ShapeFill = null;
 		private var onTrackFill:ShapeFill = null;
-		
-		private var tweener:Tweener = null;
 		
 		public function set selected(value:Boolean):void 
 		{
@@ -133,16 +129,14 @@ package com.tengu.gui.controls.buttons
 			thumb = new BaseButton();
 			addChild(thumb);
 			
-			tweener = TweenSystem.getTweener(this);
 			addEventListener(MouseEvent.CLICK, onClick);
 		}
 		
 		protected override function dispose():void
 		{
-			TweenSystem.removeTweener(tweener);
+			Tweeny.killOf(this);
 			removeEventListener(MouseEvent.CLICK, onClick);
 			
-			tweener = null;
 			thumb = null;
 			track = null;
 			offTrackFill = null;
@@ -216,7 +210,7 @@ package com.tengu.gui.controls.buttons
 		
 		private function onClick(event:MouseEvent):void
 		{
-			if (tweener.hasTweens())
+			if (Tweeny.hasTween(this))
 			{
 				return;
 			}
@@ -224,7 +218,7 @@ package com.tengu.gui.controls.buttons
 			isSelected = !isSelected;
 			var targetX:int = isSelected ? width - thumb.width : 0;
 			
-			tweener.addTween(TOGGLE_TIME, {thumbX:targetX});
+			Tweeny.create(this).during(TOGGLE_TIME).to({thumbX:targetX}).start();
 			
 			if (hasEventListener(Event.CHANGE))
 			{

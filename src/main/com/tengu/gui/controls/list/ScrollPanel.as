@@ -12,8 +12,7 @@ package com.tengu.gui.controls.list
 	import com.tengu.model.api.IList;
 	import com.tengu.model.enum.ModelEventKind;
 	import com.tengu.model.events.ModelEvent;
-	import com.tengu.tween.TweenSystem;
-	import com.tengu.tween.Tweener;
+	import com.tengu.tween.Tweeny;
 	
 	import flash.display.Shape;
 	import flash.events.MouseEvent;
@@ -29,6 +28,7 @@ package com.tengu.gui.controls.list
 	public class ScrollPanel extends GUIComponent
 	{
 		private static const TRANSPARENT_FILL:ColorFloodFill = new ColorFloodFill();
+		protected static const TWEEN_TIME:int = 10;
 		
 		private var dataSourceChanged:Boolean	= false;
 		protected var showSelector:Boolean		= true;
@@ -62,8 +62,6 @@ package com.tengu.gui.controls.list
 		protected var backgroundShapeFill:ShapeFill = null;
 		
 		protected var inTweenMode:Boolean = false;
-		
-		protected var tweener:Tweener = null;
 		
 		public function set moveByWheel(value:Boolean):void 
 		{
@@ -242,8 +240,6 @@ package com.tengu.gui.controls.list
 			
 			innerScrollRect = new Rectangle(0, 0, componentWidth, componentHeight);
 			scrollRect = innerScrollRect;
-			
-			tweener = TweenSystem.getTweener(innerContainer);
 		}
 		
 		protected override function dispose():void
@@ -255,8 +251,7 @@ package com.tengu.gui.controls.list
 				panelDataSource.removeEventListener(ModelEvent.MODEL_CHANGE, onChangeModel);
 			}
 			
-			tweener.removeAllTweens();
-			tweener = null;
+			Tweeny.killOf(innerContainer);
 			
 			innerContainer.removeEventListener(MouseEvent.CLICK, 		onClickInnerContainer);
 			innerContainer.removeEventListener(MouseEvent.MOUSE_MOVE, 	onMouseMove);
@@ -280,9 +275,9 @@ package com.tengu.gui.controls.list
 			TRANSPARENT_FILL.apply(innerContainer.graphics, width, height);
 		}
 		
-		protected override function updateSize(width:int, height:int):void
+		protected override function updateSize():void
 		{
-			super.updateSize(width, height);
+			super.updateSize();
 			innerContainer.setSize(width, height);
 			
 			innerScrollRect.width  = width;

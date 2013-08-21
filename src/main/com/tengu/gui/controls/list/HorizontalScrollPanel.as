@@ -2,8 +2,8 @@ package com.tengu.gui.controls.list
 {
 	import com.tengu.gui.base.GUIComponent;
 	import com.tengu.gui.controls.list.components.IBaseRenderer;
-	import com.tengu.tween.Tween;
-	import com.tengu.tween.enum.TweenType;
+	import com.tengu.tween.Tweeny;
+	import com.tengu.tween.plugins.DisplayCoordsTween;
 	
 	import flash.display.DisplayObject;
 
@@ -77,9 +77,9 @@ package com.tengu.gui.controls.list
 			return renderer;
 		}
 		
-		protected override function updateSize(width:int, height:int):void
+		protected override function updateSize():void
 		{
-			super.updateSize(width, height);
+			super.updateSize();
 			visibleElementsCount = width / elementWidth;
 			updateScroll();
 		}
@@ -132,7 +132,6 @@ package com.tengu.gui.controls.list
 		{
 			var startX:int = 0;
 			var renderCount:uint  = 0;
-			var tween:Tween = null;
 			
 			if (cannotMoveToIndex(index) || inTweenMode)
 			{
@@ -149,8 +148,12 @@ package com.tengu.gui.controls.list
 			
 			innerContainer.x = - startX;
 			
-			tween = tweener.addTween(TweenType.DISPLAY_OBJECT, 15, {x:0});
-			tween.addCompleteHandler(onCompleteTween, [tween]);
+			Tweeny.create(innerContainer, DisplayCoordsTween.create).
+					during(TWEEN_TIME).
+					to({x: 0}).
+					onComplete(onCompleteTween).
+					start();
+
 			
 			startSourceIndex = index;
 			selectorShape.visible = false;
@@ -167,9 +170,8 @@ package com.tengu.gui.controls.list
 			super.setStyleSelector(styleName, styleValue);
 		}
 		
-		protected function onCompleteTween (tween:Tween):void
+		protected function onCompleteTween ():void
 		{
-			tween.removeCompleteHandler(onCompleteTween);
 			selectorShape.visible = true;
 			updateSelection();
 			inTweenMode = false;

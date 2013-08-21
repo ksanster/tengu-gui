@@ -32,7 +32,7 @@ package com.tengu.gui.resources.text
 			body = "";
 		}
 		
-		public function add (text:String, className:String = null, tagName = null):void
+		public function add (text:String, className:String = null, tagName:String = null):void
 		{
 			if (className != null)
 			{

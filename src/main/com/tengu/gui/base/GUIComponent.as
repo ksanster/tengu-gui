@@ -96,9 +96,14 @@ package com.tengu.gui.base
 			return GUIManagersFactory.getMarkupFactory();
 		}
 		
-		protected function get defaultStyle ():Object
+		protected final function get defaultStyle ():Object
 		{
-			return styleManager.defaultTextStyle;
+			return styleManager.getStyle(defaultStyleName);
+		}
+		
+		protected function get defaultStyleName ():String
+		{
+			return null;
 		}
 		
 		public function get minWidth ():uint

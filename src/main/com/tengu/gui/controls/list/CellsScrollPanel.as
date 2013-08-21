@@ -3,10 +3,9 @@ package com.tengu.gui.controls.list
 	import com.tengu.core.funcs.removeAllChildren;
 	import com.tengu.gui.base.GUIComponent;
 	import com.tengu.gui.controls.list.components.IBaseRenderer;
-	import com.tengu.tween.Tween;
-	import com.tengu.tween.enum.TweenType;
-	
-	import flash.geom.Rectangle;
+	import com.tengu.tween.Tweeny;
+	import com.tengu.tween.api.ITween;
+	import com.tengu.tween.plugins.DisplayCoordsTween;
 
 	[Style(name="cell_width")]
 	[Style(name="cell_height")]
@@ -139,9 +138,9 @@ package com.tengu.gui.controls.list
 			super.setStyleSelector(styleName, styleValue);
 		}
 		
-		protected override function updateSize(width:int, height:int):void
+		protected override function updateSize():void
 		{
-			super.updateSize(width, height);
+			super.updateSize();
 			updateColsAndRows();
 			updateScroll();
 		}
@@ -173,7 +172,7 @@ package com.tengu.gui.controls.list
 			renderCache[renderCache.length] = renderer;
 		}
 		
-		public function moveToPageHorizontally (index:int):Tween
+		public function moveToPageHorizontally (index:int):ITween
 		{
 			if (cannotMoveToPage(index) || inTweenMode)
 			{
@@ -188,7 +187,6 @@ package com.tengu.gui.controls.list
 			
 			var pageX:int = 0;
 			var containerX:int = 0;
-			var tween:Tween = null;
 			
 			if (index < panelPageIndex)
 			{
@@ -209,12 +207,14 @@ package com.tengu.gui.controls.list
 			}
 			
 			panelPageIndex = index;
-			tween = tweener.addTween(TweenType.DISPLAY_OBJECT, 10, {x: 0});
-			tween.addCompleteHandler(onCompleteTween, [tween]);
 			
 			inTweenMode = true;
-			
-			return tween;
+
+			return Tweeny.create(innerContainer, DisplayCoordsTween.create).
+							during(TWEEN_TIME).
+							to({x: 0}).
+							onComplete(onCompleteTween).
+							start();
 		}
 		
 		public function moveToPageVertically (index:int):void
@@ -223,9 +223,8 @@ package com.tengu.gui.controls.list
 		}
 		
 		
-		protected function onCompleteTween (tween:Tween):void
+		protected function onCompleteTween ():void
 		{
-			tween.removeCompleteHandler(onCompleteTween);
 			selectorShape.visible = true;
 			clear();
 			renderPage(pageIndex);

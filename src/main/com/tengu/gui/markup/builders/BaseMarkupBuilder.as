@@ -12,11 +12,12 @@ package com.tengu.gui.markup.builders
 	{
 		public function BaseMarkupBuilder()
 		{
+			//Empty
 		}
 		
 		protected function parseCustomTag (target:IMarkable, parser:IMarkupParser, tagName:String, tagValue:*):Boolean
 		{
-			
+			return false;
 		}
 		
 		protected final function processAttributes (node:XML, parser:IMarkupParser, target:IMarkable):void
@@ -34,7 +35,7 @@ package com.tengu.gui.markup.builders
 			{
 				name = String(node.localName());
 				value = node.valueOf();
-				if (!target.hasOwnProperty(name))
+				if (!Object(target).hasOwnProperty(name))
 				{
 					LogFactory.getLogger(this).error("Property " + name + " not found in [" + target + "]");
 					continue;
@@ -79,7 +80,7 @@ package com.tengu.gui.markup.builders
 				{
 					parser.addElement(id, element);
 				}
-				if (target.hasOwnProperty(name))
+				if (Object(target).hasOwnProperty(name))
 				{
 					target[name] = element;
 				}

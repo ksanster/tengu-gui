@@ -21,7 +21,7 @@ package com.tengu.gui.markup
 		{
 			classes  = {};
 			builders = {};
-			registerBuilder(BaseMarkupBuilder, GUIComponent, "Component");
+			registerBuilder(new BaseMarkupBuilder(), GUIComponent, "Component");
 //			result["Component"] = GUIComponent;
 //			result["Container"] = GUIContainer;
 //			result["VBox"]      = VBox;
@@ -34,7 +34,7 @@ package com.tengu.gui.markup
 //			result["Text"]      = Text;
 //			result["InputText"] = StageTextInputWithPropmt;
 //			
-//			result["Button"]     = BaseButton;
+//			result["BaseButton"]     = BaseButton;
 //			result["TextButton"] = TextButton;
 //			result["IconButton"] = IconButton;
 //			result["CheckBox"]   = CheckBox;

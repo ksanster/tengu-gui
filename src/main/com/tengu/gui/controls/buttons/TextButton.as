@@ -21,6 +21,11 @@ package com.tengu.gui.controls.buttons
 		protected var labelStyles:Object 		 = null;
 		protected var selectedLabelStyles:Object = null;
 		
+		protected override function get defaultStyleName():String
+		{
+			return "TextButton";
+		}
+		
 		public function get label():String
 		{
 			return  text.text;

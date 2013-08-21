@@ -27,10 +27,12 @@ package com.tengu.gui.resources.text
 		public static const STRENGTH:String 	= "strength";
 		public static const QUALITY:String 		= "quality";
 		
-		public static const TEXT_FORMAT_PREFIX:String 	= "format";
-		public static const TEXT_CSS_PREFIX:String 		= "css";
-		public static const FILTER_PREFIX:String 		= "filter";
-        public static const DEFAULT_PREFIX:String       = "default"
+		public static const SELECTOR_TYPE:String  				= "selector_type"; 
+
+		public static const SELECTOR_TYPE_TEXT_FORMAT:String 	= "text_format"; 
+		public static const SELECTOR_TYPE_CSS_FORMAT:String  	= "css_format"; 
+		public static const SELECTOR_TYPE_FILTER:String  		= "filter"; 
+		
 
 		public function StyleProtocol()
 		{

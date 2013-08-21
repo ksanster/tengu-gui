@@ -3,7 +3,6 @@ package com.tengu.gui.base
 	import com.tengu.calllater.api.ICallLaterManager;
 	import com.tengu.core.tengu_internal;
 	import com.tengu.core.errors.StaticClassConstructError;
-	import com.tengu.gui.api.IMarkupManager;
 	import com.tengu.gui.api.IScaleManager;
 	import com.tengu.gui.api.IStyleManager;
 	import com.tengu.gui.api.ITexturesManager;

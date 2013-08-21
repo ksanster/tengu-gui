@@ -30,7 +30,7 @@ package com.tengu.gui.controls.buttonbar
 		public function set barHeight(value:int):void 
 		{
 			buttonBar.height = value;
-			invalidateLayout();
+			invalidate(VALIDATION_FLAG_LAYOUT);
 		}
 		
 		public function set selectedIndex(value:int):void 
@@ -118,9 +118,9 @@ package com.tengu.gui.controls.buttonbar
 			super.dispose();
 		}
 		
-		protected override function updateSize(width:int, height:int):void
+		protected override function updateSize():void
 		{
-			super.updateSize(width, height);
+			super.updateSize();
 			if (tabActiveComponent != null)
 			{
 				tabActiveComponent.setSize(width, height - buttonBar.height);
@@ -169,13 +169,13 @@ package com.tengu.gui.controls.buttonbar
 		{
 			var index:int = buttonBar.selectedIndex;
 			var needChange:Boolean = (components != null && index == components.length);
-			buttonBar.add(button);
+			buttonBar.addChild(button);
 			components[components.length] = content;
 			if (needChange)
 			{
 				changeActiveComponent(index);
 			}
-			invalidateLayout();
+			invalidate(VALIDATION_FLAG_LAYOUT);
 		}
 		
 		private function onChangeSelectedIndex(event:SelectedIndexChangeEvent):void

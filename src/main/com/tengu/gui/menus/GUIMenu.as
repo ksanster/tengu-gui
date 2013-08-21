@@ -4,8 +4,7 @@ package com.tengu.gui.menus
 	import com.tengu.gui.enum.MenuState;
 	import com.tengu.gui.events.GUIMenuEvent;
 	import com.tengu.tween.Tween;
-	import com.tengu.tween.TweenSystem;
-	import com.tengu.tween.enum.TweenType;
+	import com.tengu.tween.Tweeny;
 	
 	import flash.events.Event;
 	import flash.events.MouseEvent;
@@ -19,6 +18,7 @@ package com.tengu.gui.menus
 	[Event(name="menuCloseFinish", 	type="com.tengu.gui.events.GUIMenuEvent")]
 	public class GUIMenu extends GUIComponent
 	{
+		private static const TWEEN_TIME:int = 18;
 		private var menuState:String = null;
 		private var scrollRectY:Number = 0;
 		
@@ -98,7 +98,7 @@ package com.tengu.gui.menus
 			closeTimer.removeEventListener(TimerEvent.TIMER, onCloseByTimer);
 
 			removeEventListener(MouseEvent.ROLL_OVER, onRollOver);
-			TweenSystem.getTweener(this).removeAllTweens();
+			Tweeny.killOf(this);
 			
 			if (hasStageListener)
 			{
@@ -121,8 +121,8 @@ package com.tengu.gui.menus
 				return;
 			}
 			closeTimer.delay = closeTimeout;
-			TweenSystem.getTweener(this).removeAllTweens();
-			tween = TweenSystem.getTweener(this).addTween(TweenType.PROPERTY, 18, {scrollY: minRectSize});
+			Tweeny.killOf(this);
+			Tweeny.create(this).during(TWEEN_TIME).to({scrollY: minRectSize}).onComplete(onCompleteTween).start();
 			tween.addCompleteHandler(onCompleteTween, [tween]);
 		}
 		
@@ -144,9 +144,8 @@ package com.tengu.gui.menus
 				scrollY = componentHeight;
 				return;
 			}
-			TweenSystem.getTweener(this).removeAllTweens();
-			tween = TweenSystem.getTweener(this).addTween(TweenType.PROPERTY, 18, {scrollY: maxRectSize});
-			tween.addCompleteHandler(onCompleteTween, [tween]);
+			Tweeny.killOf(this);
+			Tweeny.create(this).during(TWEEN_TIME).to({scrollY: maxRectSize}).onComplete(onCompleteTween).start();
 		}
 		
 		
@@ -173,7 +172,6 @@ package com.tengu.gui.menus
 		
 		private function onCompleteTween(tween:Tween):void
 		{
-			TweenSystem.getTweener(this).removeTween(tween);
 			if (!hasStageListener)
 			{
 				stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);

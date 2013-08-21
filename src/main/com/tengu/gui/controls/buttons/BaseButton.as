@@ -44,6 +44,10 @@ package com.tengu.gui.controls.buttons
 		protected var background:Shape 				= null;
 		protected var activeState:String			= null;
 		
+		protected override function get defaultStyleName():String
+		{
+			return "BaseButton";
+		}
 		
 		public function get selected():Boolean 
 		{

@@ -1,0 +1,39 @@
+<fills>
+<!-- 
+    <scale3_bitmap name="window_tab_up" direction="horizontal" stretch_start="21" stretch_size="3"/>
+    <scale9_bitmap name="auth_button_up" left="10" top="10" width="265" height="55"/>
+    <bitmap name="chip_icon" stretch="false" repeat="false"/>
+    <flood name="transparent" color="0xFFFFFF" alpha="0"/>
+ -->
+    <scale9_bitmap name="button_up" left="4" top="4" width="74" height="14"/>
+    <scale9_bitmap name="button_over" left="4" top="4" width="74" height="14"/>
+    <scale9_bitmap name="button_down" left="4" top="4" width="74" height="14"/>
+    <scale9_bitmap name="button_disabled" left="4" top="4" width="74" height="14"/>
+
+    <scale9_bitmap name="button_selected_up" left="5" top="5" width="54" height="13"/>
+    <scale9_bitmap name="button_selected_over" left="5" top="5" width="54" height="13"/>
+    <scale9_bitmap name="button_selected_down" left="5" top="5" width="54" height="13"/>
+    <scale9_bitmap name="button_selected_disabled" left="5" top="5" width="54" height="13"/>
+
+    <bitmap name="checkbox_up" stretch="false" repeat="false"/>
+    <bitmap name="checkbox_over" stretch="false" repeat="false"/>
+    <bitmap name="checkbox_down" stretch="false" repeat="false"/>
+    <bitmap name="checkbox_disabled" stretch="false" repeat="false"/>
+
+    <bitmap name="checkbox_selected_up" stretch="false" repeat="false"/>
+    <bitmap name="checkbox_selected_over" stretch="false" repeat="false"/>
+    <bitmap name="checkbox_selected_down" stretch="false" repeat="false"/>
+    <bitmap name="checkbox_selected_disabled" stretch="false" repeat="false"/>
+
+    <bitmap name="radio_up" stretch="false" repeat="false"/>
+    <bitmap name="radio_over" stretch="false" repeat="false"/>
+    <bitmap name="radio_down" stretch="false" repeat="false"/>
+    <bitmap name="radio_disabled" stretch="false" repeat="false"/>
+
+    <bitmap name="radio_selected_up" stretch="false" repeat="false"/>
+    <bitmap name="radio_selected_over" stretch="false" repeat="false"/>
+    <bitmap name="radio_selected_down" stretch="false" repeat="false"/>
+    <bitmap name="radio_selected_disabled" stretch="false" repeat="false"/>
+
+    <flood name="transparent" color="0xFFFFFF" alpha="0"/>
+</fills>

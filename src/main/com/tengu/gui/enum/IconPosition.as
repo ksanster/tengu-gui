@@ -4,8 +4,8 @@ package com.tengu.gui.enum
 
 	public class IconPosition
 	{
-		public static const ICON_LEFT:String  = "iconLeft";
-		public static const ICON_RIGHT:String = "iconRight";
+		public static const ICON_LEFT:String  = "left";
+		public static const ICON_RIGHT:String = "right";
 		
 		public function IconPosition()
 		{

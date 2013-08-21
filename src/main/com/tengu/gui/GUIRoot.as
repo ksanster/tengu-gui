@@ -10,10 +10,12 @@ package com.tengu.gui
 	import com.tengu.gui.managers.StyleManager;
 	import com.tengu.gui.managers.TexturesManager;
 	import com.tengu.gui.markup.MarkupBuilderFactory;
+	import com.tengu.gui.themes.api.ITheme;
 	
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.text.Font;
 	
 	public class GUIRoot extends GUIComponent
 	{
@@ -81,6 +83,20 @@ package com.tengu.gui
 		{
 			scaleManager.setScreenSize(width, height);
 			windowManager.setSize(width, height);
+		}
+		
+		public function applyTheme (theme:ITheme):void
+		{
+			const fontClasses:Vector.<Class> = theme.fonts;
+			
+			for each (var fontClass:Class in fontClasses)
+			{
+				Font.registerFont(fontClass);
+			}
+			
+			styleManager.configure(theme.css);
+			textureManager.library = theme.library;
+			textureManager.configure(theme.fills);
 		}
 		
 		protected override function onAddedToStage(event:Event):void

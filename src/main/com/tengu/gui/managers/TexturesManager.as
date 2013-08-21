@@ -9,13 +9,12 @@ package com.tengu.gui.managers
 	import com.tengu.gui.fills.Scale9BitmapFill;
 	import com.tengu.gui.fills.ShapeFill;
 	import com.tengu.gui.resources.text.StyleProtocol;
+	import com.tengu.log.LogFactory;
 	
 	import flash.display.BitmapData;
 	import flash.geom.Matrix;
 	import flash.geom.Rectangle;
 	import flash.system.ApplicationDomain;
-	
-	import ru.mail.minigames.zygote.logger.LoggerFactory;
 	
 	public class TexturesManager implements ITexturesManager
 	{
@@ -239,7 +238,7 @@ package com.tengu.gui.managers
 		{
 			if (textures[name] == null)
 			{
-				LoggerFactory.get(this).e("Texture not registered: ", name);
+				LogFactory.getLogger(this).error("Texture not registered: ", name);
 				return INVALID_TEXTURE;
 			}
 			return textures[name];

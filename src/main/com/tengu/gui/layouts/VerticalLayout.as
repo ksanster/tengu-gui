@@ -67,7 +67,7 @@ package com.tengu.gui.layouts
 			componentsHeight += tmp;
 			
 			contentHeight = componentsHeight + tmp;
-			setAlignParams(target, contentWidth, contentHeight);
+			setAlignParams(target, noPaddingWidth, noPaddingHeight);
 			
 			bounds.width  = contentWidth + paddingLeft + paddingRight;
 			bounds.height = contentHeight + paddingTop + paddingBottom;

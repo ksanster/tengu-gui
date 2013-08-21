@@ -7,6 +7,12 @@ package com.tengu.gui.controls.buttons {
 	[Event(name = "change", type = "flash.events.Event")]
 	public class CheckBox extends IconButton 
 	{
+		
+		protected override function get defaultStyleName():String
+		{
+			return "CheckBox";
+		}
+		
 		public function CheckBox() 
 		{
 			super();

@@ -9,15 +9,12 @@ package com.tengu.gui.windows
 	import com.tengu.gui.fills.ColorFloodFill;
 	import com.tengu.gui.fills.ShapeFill;
 	
-	import flash.desktop.NativeApplication;
 	import flash.display.Bitmap;
 	import flash.display.InteractiveObject;
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.Event;
-	import flash.events.KeyboardEvent;
 	import flash.events.TimerEvent;
-	import flash.ui.Keyboard;
 	import flash.utils.Timer;
 
 	[Style(name="title")]
@@ -292,28 +289,6 @@ package com.tengu.gui.windows
 		{
 			closeTimer.reset();
 			close();
-		}
-		
-		private function onKeyDown(event:KeyboardEvent):void
-		{
-			if (event.keyCode == Keyboard.BACK)
-			{
-				close();
-				event.preventDefault();
-				event.stopImmediatePropagation();
-			}
-		}
-
-		protected override function onAddedToStage(event:Event):void
-		{
-			super.onAddedToStage(event);
-			NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown, false, int.MAX_VALUE);
-		}
-		
-		protected override function onRemovedFromStage(event:Event):void
-		{
-			super.onRemovedFromStage(event);
-			NativeApplication.nativeApplication.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
 		}
 	}
 }

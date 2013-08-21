@@ -81,6 +81,23 @@ package com.tengu.gui.layouts
 			percentSizedClips = new Vector.<GUIComponent>();
 		}
 		
+		protected final function getNumChildren (target:GUIContainer):int
+		{
+			var component:GUIComponent;
+			var result:uint = 0;
+			var count:int = target.numChildren;
+			for (var i:int = 0; i < count; i++)
+			{
+				component = target.getChildAt(i) as GUIComponent;
+				if (component != null && !component.includeInLayout)
+				{
+					continue;
+					result++;
+				}
+			}
+			return result;
+		}
+		
 		protected function setAlignParams (target:GUIComponent, noPaddingWidth:uint, noPaddingHeight:uint):void
 		{
 			switch (horizontalAlign)

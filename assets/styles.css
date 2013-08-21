@@ -1,0 +1,85 @@
+BaseButton
+{
+	up_skin:button_up; 
+	over_skin:button_over;
+	down_skin:button_down;
+	disabled_skin:button_disabled;
+
+	selected_up_skin:button_selected_up; 
+	selected_over_skin:button_selected_over;
+	selected_down_skin:button_selected_down;
+	selected_disabled_skin:button_selected_disabled;
+}
+
+TextButton
+{
+	inherits:BaseButton;
+	text:ButtonLabel;
+}
+
+IconButton
+{
+	inherits:TextButton;
+	icon_pos:left;
+}
+
+CheckBox
+{
+	up_skin:transparent; 
+	over_skin:transparent;
+	down_skin:transparent;
+	disabled_skin:transparent;
+	
+	selected_up_skin:transparent; 
+	selected_over_skin:transparent;
+	selected_down_skin:transparent;
+	selected_disabled_skin:transparent;
+
+	icon_pos:left;
+	
+	icon:checkbox_up;
+	over_icon:checkbox_over;
+	down_icon:checkbox_down;
+	disabled_icon:checkbox_disabled;
+	
+	selected_icon:checkbox_selected_up;
+	selected_over_icon:checkbox_selected_over;
+	selected_down_icon:checkbox_selected_down;
+	selected_disabled_icon:checkbox_selected_disabled;
+}
+
+Radio
+{
+	inherits:Checkbox;
+	
+	icon:radio_up;
+	over_icon:radio_over;
+	down_icon:radio_down;
+	disabled_icon:radio_disabled;
+	
+	selected_icon:radio_selected_up;
+	selected_over_icon:radio_selected_over;
+	selected_down_icon:radio_selected_down;
+	selected_disabled_icon:radio_selected_disabled;
+}
+
+Text
+{
+	text:DefaultText;
+}
+
+DefaultText
+{
+	selector_type:text_format;
+	font:Verdana;
+	size:12;
+	color:0xFFFFFF;
+}
+
+ButtonLabel
+{
+	selector_type:text_format;
+	font:Verdana;
+	size:12;
+	color:0x444444;
+}

@@ -29,6 +29,11 @@ package com.tengu.gui.controls.text
 			return (!isAutoSize && !isMultiline);
 		}
 		
+		protected override function get defaultStyleName():String
+		{
+			return "Text";
+		}
+		
 		protected override function get defaultStyle():Object
 		{
 			var object:Object = super.defaultStyle || {};

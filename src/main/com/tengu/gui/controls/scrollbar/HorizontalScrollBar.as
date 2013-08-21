@@ -28,9 +28,9 @@ package com.tengu.gui.controls.scrollbar
 			trackButton.x = prevButton.width;
 		}
 		
-		protected override function updateSize(width:int, height:int):void
+		protected override function updateSize():void
 		{
-			super.updateSize(width, height);
+			super.updateSize();
 			trackButton.setSize(width - prevButton.width - nextButton.width, height);
 			thumbButton.setSize(scrollPageSize * trackButton.width, height);
 			thumbButton.minWidth = height;

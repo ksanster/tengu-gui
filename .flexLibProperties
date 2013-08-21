@@ -2,28 +2,26 @@
 <flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
   <includeClasses>
     <classEntry path="com.tengu.gui.GUIRoot"/>
+    <classEntry path="com.tengu.gui.api.IStyleManager"/>
+    <classEntry path="com.tengu.gui.api.ITextFormatManager"/>
     <classEntry path="com.tengu.gui.api.ITexturesManager"/>
-    <classEntry path="com.tengu.gui.api.IHintManager"/>
     <classEntry path="com.tengu.gui.api.IWindowManager"/>
     <classEntry path="com.tengu.gui.base.GUIManagersFactory"/>
-    <classEntry path="com.tengu.gui.api.ITextFormatManager"/>
-    <classEntry path="com.tengu.gui.hint.IHint"/>
-    <classEntry path="com.tengu.gui.managers.TexturesManager"/>
-    <classEntry path="com.tengu.gui.windows.tweens.OpenWindowTween"/>
-    <classEntry path="com.tengu.gui.windows.tweens.CloseWindowTween"/>
-    <classEntry path="com.tengu.gui.api.IStyleManager"/>
-    <classEntry path="com.tengu.gui.managers.StyleManager"/>
-    <classEntry path="com.tengu.gui.flash.FlashAdapterComponent"/>
     <classEntry path="com.tengu.gui.controls.buttons.ContentButton"/>
-    <classEntry path="com.tengu.gui.markup.api.IMarkable"/>
-    <classEntry path="com.tengu.gui.markup.api.IMarkupFactory"/>
+    <classEntry path="com.tengu.gui.flash.FlashAdapterComponent"/>
+    <classEntry path="com.tengu.gui.layouts.CellsVLayout"/>
     <classEntry path="com.tengu.gui.layouts.TileVerticalLayout"/>
-    <classEntry path="com.tengu.gui.markup.api.IMarkupParser"/>
+    <classEntry path="com.tengu.gui.managers.StyleManager"/>
+    <classEntry path="com.tengu.gui.managers.TexturesManager"/>
+    <classEntry path="com.tengu.gui.markup.MarkupBuilderFactory"/>
+    <classEntry path="com.tengu.gui.markup.MarkupParser"/>
+    <classEntry path="com.tengu.gui.markup.api.IMarkable"/>
     <classEntry path="com.tengu.gui.markup.api.IMarkupBuilder"/>
     <classEntry path="com.tengu.gui.markup.api.IMarkupBuilderFactory"/>
-    <classEntry path="com.tengu.gui.markup.MarkupParser"/>
+    <classEntry path="com.tengu.gui.markup.api.IMarkupParser"/>
     <classEntry path="com.tengu.gui.markup.builders.BaseMarkupBuilder"/>
-    <classEntry path="com.tengu.gui.markup.MarkupBuilderFactory"/>
+    <classEntry path="com.tengu.gui.themes.api.ITheme"/>
+    <classEntry path="com.tengu.gui.themes.SimpleTheme"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
