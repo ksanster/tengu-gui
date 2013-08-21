@@ -34,14 +34,7 @@ package com.tengu.gui.controls.text
 			return "Text";
 		}
 		
-		protected override function get defaultStyle():Object
-		{
-			var object:Object = super.defaultStyle || {};
-			object["text"] = textFormat || styleManager.defaultTextStyle;
-			return object;
-		}
-		
-		public function get textWidth ():int 
+		public function get textWidth ():int
 		{
 			return textField.textWidth + 4;;
 		}	
