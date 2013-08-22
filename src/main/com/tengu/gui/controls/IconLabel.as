@@ -90,7 +90,8 @@ package com.tengu.gui.controls
 			iIcon.bitmapData = textureManager.getIcon(iIconName);
 			addChild(iIcon);
 			
-			textField = new Text(iLabel, iStyle);
+			textField = new Text(iLabel);
+            textField.style = iStyle;
 			addChild(textField);
 		}
 		
@@ -127,9 +128,9 @@ package com.tengu.gui.controls
 				iIcon.bitmapData = textureManager.getIcon(styleValue);
 				return;
 			}
-			if (styleName == "text" && textField.format != styleValue)
+			if (styleName == "text" && textField.style != styleValue)
 			{
-				textField.format = styleValue;
+				textField.style = styleValue;
 				return;
 			}
 			if (styleName == "icon_pos" && iconPos != styleValue)

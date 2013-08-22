@@ -41,10 +41,12 @@ package com.tengu.gui.controls
 			mouseEnabled = false;
 			mouseChildren = false;
 			
-			labelField = new Text("", labelStyle);
+			labelField = new Text();
+            labelField.style = labelStyle;
 			addChild(labelField);
 			
-			valueField = new Text("", valueStyle);
+			valueField = new Text();
+            valueField.style = valueStyle;
 			addChild(valueField);
 		}
 		
@@ -80,14 +82,14 @@ package com.tengu.gui.controls
 		{
 			if (styleName == "label_text" && labelStyle != styleValue)
 			{
-				labelStyle = styleValue;
-				labelField.format = styleValue;
+				labelStyle       = styleValue;
+				labelField.style = styleValue;
 				return;
 			}
 			if (styleName == "value_text" && valueStyle != styleValue)
 			{
-				valueStyle = styleValue;
-				valueField.format = styleValue;
+				valueStyle       = styleValue;
+				valueField.style = styleValue;
 				return;
 			}
 			if (styleName == "gap")

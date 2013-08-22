@@ -239,7 +239,7 @@ package com.tengu.gui.windows
 		{
 			if (styleName == "title")
 			{
-				titleLabel.format = styleValue;
+				titleLabel.style = styleValue;
 				return;
 			}
 			if (styleName == "close_button")

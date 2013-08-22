@@ -1,6 +1,7 @@
 package com.tengu.gui.controls.text
 {
-	import com.tengu.gui.base.GUIComponent;
+    import com.tengu.core.tengu_internal;
+    import com.tengu.gui.base.GUIComponent;
 	
 	import flash.text.AntiAliasType;
 	import flash.text.GridFitType;
@@ -11,18 +12,16 @@ package com.tengu.gui.controls.text
 	[Style(name="text")]
 	public class Text extends GUIComponent
 	{
-		protected static const VALIDATION_FLAG_FORMAT:String = "validateTextFormat";
-		
-		private var textFieldHTMLText:String = null;
-		
-		private var textFormat:String 		= null;
+
 		private var isAutoSize:Boolean 		= false;
 		private var isMultiline:Boolean 	= false;
 		private var isSelectable:Boolean 	= false;
 		private var isLinkEnabled:Boolean 	= false;
-		
-		protected var textFieldText:String = null;
-		protected var textField:TextField = null;
+
+        protected var htmlTextValue:String  = null;
+		protected var textValue:String      = null;
+
+        protected var textField:TextField   = null;
 		
 		private function get isLabel ():Boolean
 		{
@@ -46,54 +45,39 @@ package com.tengu.gui.controls.text
 		
 		public function get text():String 
 		{
-			return textFieldText;
+			return textValue;
 		}
 		
 		public function set text(value:String):void 
 		{
 			value = value || "";
-			if (textFieldText == value)
+			if (textValue == value)
 			{
 				return;
 			}
-			textFieldText  = value;
-			textFieldHTMLText = null;
+			textValue  = value;
+			htmlTextValue = null;
 			invalidate(VALIDATION_FLAG_DATA, VALIDATION_FLAG_DISPLAY, VALIDATION_FLAG_SIZE);
 		}
 		
 		public function get htmlText():String 
 		{
-			return textFieldHTMLText;
+			return htmlTextValue;
 		}
 		
 		public function set htmlText(value:String):void 
 		{
 			value = value || "";
-			if (textFieldHTMLText == value)
+			if (htmlTextValue == value)
 			{
 				return;
 			}
-			textFieldHTMLText = value;
-			textFieldText = null;
+			htmlTextValue = value;
+			textValue = null;
 			invalidate(VALIDATION_FLAG_DATA, VALIDATION_FLAG_DISPLAY, VALIDATION_FLAG_SIZE);
 		}
 		
-		public function get format():String 
-		{
-			return textFormat;
-		}
-		
-		public function set format(value:String):void 
-		{
-			if (value == textFormat || value == null)
-			{
-				return;
-			}
-			textFormat = value;
-			invalidate(VALIDATION_FLAG_FORMAT);
-		}
-		
-		public function get multiline():Boolean 
+		public function get multiline():Boolean
 		{
 			return isMultiline;
 		}
@@ -155,25 +139,24 @@ package com.tengu.gui.controls.text
 			return textField;
 		}
 		
-		public function Text(text:String = "", style:String = null, autoSize:Boolean = true, selectable:Boolean = false, multiline:Boolean = false)
+		public function Text(text:String = "", autoSize:Boolean = true, selectable:Boolean = false, multiline:Boolean = false)
 		{
-			isAutoSize = autoSize;
-			isMultiline = multiline;
-			isSelectable = selectable;
-			textFormat = style;
-			textFieldText = text;
+			isAutoSize      = autoSize;
+			isMultiline     = multiline;
+			isSelectable    = selectable;
+			textValue       = text;
 			super();
 			
 		}
 		
 		private function truncateText ():void
 		{
-			if (textFieldText == null || textFieldText.length == 0)
+			if (textValue == null || textValue.length == 0)
 			{
 				return;
 			}
 			var index:int = 0;
-			var tmpString:String = textFieldText;
+			var tmpString:String = textValue;
 			textField.text = tmpString;
 			if (width < textField.textWidth)
 			{
@@ -183,11 +166,6 @@ package com.tengu.gui.controls.text
 					textField.text = tmpString.substr(0, index) + "...";
 				}
 			}
-		}
-		
-		protected override function initialize():void
-		{
-			super.initialize();
 		}
 		
 		protected override function createChildren():void
@@ -207,45 +185,27 @@ package com.tengu.gui.controls.text
 		protected override function updateData():void
 		{
 			super.updateData();
-			if (textFieldText != null)
+
+            textField.autoSize = 	isAutoSize ? TextFieldAutoSize.LEFT : TextFieldAutoSize.NONE;
+            textField.multiline 	= isMultiline;
+            textField.wordWrap 		= isMultiline;
+            textField.selectable 	= isSelectable;
+
+            mouseChildren 			= isSelectable;
+            textField.mouseEnabled  = isSelectable;
+
+            if (textValue != null)
 			{
-				textField.text = textFieldText;
+				textField.text = textValue;
 			} 
 			else
 			{
-				textField.htmlText = textFieldHTMLText;
+				textField.htmlText = htmlTextValue;
 			}
 			if (isLabel)
 			{
 				truncateText();
 			}
-			if (autoSize)
-			{
-				setSize(textWidth, textHeight + 4);
-			}
-		}
-		
-		protected override function validate():void
-		{
-			textField.autoSize = 	isAutoSize ? TextFieldAutoSize.LEFT : TextFieldAutoSize.NONE;
-			textField.multiline 	= isMultiline;
-			textField.wordWrap 		= isMultiline;
-			textField.selectable 	= isSelectable;
-			
-			mouseChildren 			= isSelectable;
-			textField.mouseEnabled  = isSelectable;
-
-			if (isInvalid(VALIDATION_FLAG_FORMAT))
-			{
-				updateFormat();
-			}
-
-			super.validate();
-		}
-			
-		protected function updateFormat():void
-		{
-			styleManager.applyTextStyle(textField, textFormat);
 			if (autoSize)
 			{
 				setSize(textWidth, textHeight + 4);
@@ -255,14 +215,16 @@ package com.tengu.gui.controls.text
 		protected override function updateSize():void
 		{
 			super.updateSize();
-			textField.width = width - componentPaddingRight - componentPaddingLeft;
-			textField.height = height - componentPaddingTop - componentPaddingBottom;
-			
+            if (!autoSize)
+            {
+                textField.width = width - componentPaddingRight - componentPaddingLeft;
+                textField.height = height - componentPaddingTop - componentPaddingBottom;
+            }
+
 			if (isLabel)
 			{
 				truncateText();
 			}
-			
 		}
 		
 		protected override function updateDisplay():void
@@ -271,15 +233,19 @@ package com.tengu.gui.controls.text
 			textField.x = componentPaddingLeft;
 			textField.y = componentPaddingTop;
 		}
-		
-		protected override function setStyleSelector(styleName:String, styleValue:*):void
-		{
-			if (styleName == "text" && textFormat != styleValue)
-			{
-				textFormat = styleValue;
-				return;
-			}
-			super.setStyleSelector(styleName, styleValue);
-		}
+
+        override protected function updateStyle ():void
+        {
+            var format:String;
+            styleObject ||= defaultStyle;
+            if (styleObject == null)
+            {
+                return;
+            }
+            format = styleObject.hasOwnProperty("text") ? styleObject["text"] : styleName;
+            styleManager.applyTextStyle(textField, format);
+
+            tengu_internal::parseStyle(styleObject);
+        }
 	}
 }

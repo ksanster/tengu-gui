@@ -40,22 +40,24 @@ package com.tengu.gui.base
 		private static const DEFAULT_WIDTH:uint			= 10;
 		private static const DEFAULT_HEIGHT:uint		= 10;
 
-		public static const VALIDATION_FLAG_ALL:String 		= "validate_all";
-		public static const VALIDATION_FLAG_SIZE:String 	= "validate_size";
-		public static const VALIDATION_FLAG_STYLE:String 	= "validate_style";
-		public static const VALIDATION_FLAG_LAYOUT:String 	= "validate_layout";
-		public static const VALIDATION_FLAG_DISPLAY:String 	= "validate_display";
-		public static const VALIDATION_FLAG_DATA:String 	= "validate_data";
+		public static const VALIDATION_FLAG_ALL:uint 		= 0xFF;
+		public static const VALIDATION_FLAG_DATA:uint 	    = 0x10;
+		public static const VALIDATION_FLAG_STYLE:uint 	    = 0x8;
+		public static const VALIDATION_FLAG_SIZE:uint 	    = 0x4;
+		public static const VALIDATION_FLAG_LAYOUT:uint 	= 0x2;
+		public static const VALIDATION_FLAG_DISPLAY:uint 	= 0x1;
 
 		tengu_internal var finalized:Boolean 		= false;
 
         private var mouseDownPos:Point			= null;
-		private var layouted:Boolean = true;
+		private var layouted:Boolean    = true;
+        private var validating:Boolean  = false;
 
 		protected var backgroundFill:ShapeFill 	= null;
 
 		protected var styleObject:Object			= null;
-		protected var validationFlags:Object		= null;
+        protected var styleName:String              = null;
+		protected var validationFlags:uint		    = 0;
 		
 		protected var componentPaddingLeft:int 		= 0;
 		protected var componentPaddingRight:int 	= 0;
@@ -193,7 +195,16 @@ package com.tengu.gui.base
 		
 		public function set style(value:Object):void 
 		{
-			var newStyle:Object = (value is String) ? styleManager.getStyle(String(value)) : value;
+            var newStyle:Object;
+            if (value is String)
+            {
+                styleName = String(value);
+                newStyle = styleManager.getStyle(styleName);
+            }
+            else
+            {
+                newStyle = value;
+            }
 			if (styleObject == newStyle)
 			{
 				return;
@@ -280,7 +291,6 @@ package com.tengu.gui.base
 		public function GUIComponent()
 		{
 			super();
-			validationFlags = {};
 			initialize();
 		}
 		
@@ -331,35 +341,40 @@ package com.tengu.gui.base
 		
 		protected function validate ():void
 		{
-			var dataInvalid:Boolean 	= isInvalid(VALIDATION_FLAG_DATA);
-			var displayInvalid:Boolean 	= isInvalid(VALIDATION_FLAG_DISPLAY);
-			var layoutInvalid:Boolean 	= isInvalid(VALIDATION_FLAG_LAYOUT);
-			var sizeInvalid:Boolean 	= isInvalid(VALIDATION_FLAG_SIZE);
-			var styleInvalid:Boolean 	= isInvalid(VALIDATION_FLAG_STYLE);
+			const dataInvalid:Boolean 	    = isInvalid(VALIDATION_FLAG_DATA);
+            const displayInvalid:Boolean 	= isInvalid(VALIDATION_FLAG_DISPLAY);
+            const layoutInvalid:Boolean     = isInvalid(VALIDATION_FLAG_LAYOUT);
+            const sizeInvalid:Boolean 	    = isInvalid(VALIDATION_FLAG_SIZE);
+            const styleInvalid:Boolean 	    = isInvalid(VALIDATION_FLAG_STYLE);
 			
 			if (dataInvalid)
 			{
 				updateData();
+                unsetValidationFlag(VALIDATION_FLAG_DATA);
 			}
 			
 			if (styleInvalid)
 			{
 				updateStyle();
+                unsetValidationFlag(VALIDATION_FLAG_STYLE);
 			}
 			
 			if (sizeInvalid)
 			{
 				updateSize();
+                unsetValidationFlag(VALIDATION_FLAG_SIZE);
 			}
 			
 			if (layoutInvalid || sizeInvalid )
 			{
 				updateLayout();
+                unsetValidationFlag(VALIDATION_FLAG_LAYOUT);
 			}
 			
 			if (displayInvalid || sizeInvalid || styleInvalid)
 			{
 				updateDisplay();
+                unsetValidationFlag(VALIDATION_FLAG_DISPLAY);
 			}
 		}
 		
@@ -494,33 +509,57 @@ package com.tengu.gui.base
 				return;
 			}
 		}
-		
-		public final function callLater (method:Function, ...params):void
+
+        protected final function isInvalid(flag:uint):Boolean
+        {
+            return (validationFlags & flag) != 0;
+        }
+
+        protected final function setValidationFlag (flag:uint):void
+        {
+            if (flag & VALIDATION_FLAG_SIZE)
+            {
+                flag = flag | VALIDATION_FLAG_LAYOUT;
+            }
+            if ((flag & VALIDATION_FLAG_STYLE) || (flag & VALIDATION_FLAG_LAYOUT) || (flag & VALIDATION_FLAG_DATA))
+            {
+                flag = flag | VALIDATION_FLAG_DISPLAY;
+            }
+            validationFlags = validationFlags | flag;
+        }
+
+        protected final function unsetValidationFlag (flag:uint):void
+        {
+            validationFlags = validationFlags & ~flag;
+        }
+
+        public final function callLater (method:Function, ...params):void
 		{
 			GUIManagersFactory.getCallLaterManager().callLater(this, method, params);
 		}
 		
 		public function invalidate (...flags):void
 		{
+            var drawLater:Boolean = false;
 			if (flags.length == 0)
 			{
-				validationFlags[VALIDATION_FLAG_ALL] = true;
+				flags[flags.length] = VALIDATION_FLAG_ALL;
 			}
-			else
-			{
-				for each (var flag:String in flags)
-				{
-					validationFlags[flag] = true;
-				}
-			}
-			callLater(draw);
+
+            for each (var flag:uint in flags)
+            {
+                if (!validating || !isInvalid(flag))
+                {
+                    drawLater = true;
+                    setValidationFlag(flag);
+                }
+            }
+            if (drawLater)
+            {
+			    callLater(draw);
+            }
 		}
-		
-		public final function isInvalid(flag:String):Boolean
-		{
-			return validationFlags[VALIDATION_FLAG_ALL] || validationFlags[flag];
-		}
-		
+
 		public final function setUnscaledSize (width:int, height:int, onlyLod:Boolean = false):void
 		{
 			var kf:Number = scaleManager.lodFactor;
@@ -559,11 +598,10 @@ package com.tengu.gui.base
 		
 		public final function draw ():void
 		{
+            validating = true;
 			validate();
-			for (var flag:String in validationFlags)
-			{
-				delete validationFlags[flag];
-			}
+            validationFlags = 0;
+            validating = false;
 		}
 		
 		public final function finalize ():void
@@ -596,7 +634,6 @@ package com.tengu.gui.base
 				
 				mouseDownPos = null;
 			}
-			
 		}
 		
 		protected function onAddedToStage(event:Event):void

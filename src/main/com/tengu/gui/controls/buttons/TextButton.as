@@ -72,7 +72,7 @@ package com.tengu.gui.controls.buttons
 		protected override function createChildren():void
 		{
 			super.createChildren();
-			text = new Text("label", null, true);
+			text = new Text("label", true);
 			text.mouseEnabled = false;
 			contentHolder.addChild(text);
 
@@ -83,7 +83,7 @@ package com.tengu.gui.controls.buttons
 		protected override function setState(state:String):void
 		{
 			super.setState(state);
-			text.format = selected ? selectedLabelStyles[state] : labelStyles[state];
+			text.style = selected ? selectedLabelStyles[state] : labelStyles[state];
 			contentHolder.invalidate(VALIDATION_FLAG_LAYOUT);
 		}
 		

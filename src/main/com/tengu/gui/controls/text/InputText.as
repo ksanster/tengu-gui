@@ -41,19 +41,19 @@ package com.tengu.gui.controls.text
 		public override function set text(value:String):void
 		{
 //			super.text = value;
-			textFieldText = value;
-			textField.text = (value == null || value.length == 0) ? defaultCaptionText : value;;
+			textValue = value;
+			textField.text = (value == null || value.length == 0) ? defaultCaptionText : value;
 			if (inFocus)
 			{
 				return;
 			}
-			format = (value == defaultCaptionText) ? defaultTextStyle : normalTextStyle;
+			style = (value == defaultCaptionText) ? defaultTextStyle : normalTextStyle;
 		}
 		
 		public function set defaultText(value:String):void 
 		{
 			defaultCaptionText = value;
-			textField.text = (textFieldText == null || textFieldText.length == 0) ? defaultCaptionText : textFieldText;
+			textField.text = (textValue == null || textValue.length == 0) ? defaultCaptionText : textValue;
 		}
 		
 		public function set displayAsPassword(value:Boolean):void 
@@ -69,7 +69,7 @@ package com.tengu.gui.controls.text
 		
 		public function InputText(normalStyle:String = null, defaultStyle:String = null)
 		{
-			super("", normalStyle, false, true, true);
+			super("", false, true, true);
 			this.normalTextStyle = normalStyle;
 			this.defaultTextStyle = defaultStyle;
 			
@@ -83,18 +83,11 @@ package com.tengu.gui.controls.text
 		{
 			if (textField.text == defaultCaptionText)
 			{
-				format = defaultTextStyle;
+				style = defaultTextStyle;
 			}
 			else
 			{
-				format = inFocus ? focusTextStyle : normalTextStyle;
-			}
-			
-			styleManager.applyTextStyle(textField, format);
-			
-			if (autoSize)
-			{
-//				setSize(textWidth, textHeight + 4);
+                style = inFocus ? focusTextStyle : normalTextStyle;
 			}
 		}
 		
@@ -194,7 +187,7 @@ package com.tengu.gui.controls.text
 		private function onFocusIn(event:FocusEvent):void
 		{
 			inFocus = true;
-			format = focusTextStyle;
+			style = focusTextStyle;
 			if (textField.text == defaultCaptionText)
 			{
 //				textField.text = "";
@@ -209,12 +202,12 @@ package com.tengu.gui.controls.text
 			if (textField.text == null || textField.text.length == 0)
 			{
 				textField.text = defaultCaptionText;
-				format = defaultTextStyle;
+				style = defaultTextStyle;
 				textField.displayAsPassword = false;
 			}
 			else
 			{
-				format = normalTextStyle;
+                style = normalTextStyle;
 				textField.displayAsPassword = isPassword;
 			}
 			setTextFieldStyle();
