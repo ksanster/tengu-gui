@@ -53,7 +53,7 @@ package com.tengu.gui.layouts
 						continue;
 					}
 				}
-				componentsWidth += clip.height;
+				componentsWidth += clip.width;
 			}
 			
 			deltaGap = Math.max(gap * (inLayoutCount - 1), 0); 
@@ -98,7 +98,7 @@ package com.tengu.gui.layouts
 				clip.y = verticalAlignStart + verticalAlignKoef * clip.height;
 				clip.x = xCoord;
 				
-				xCoord += gap;
+				xCoord += ( clip.width + gap );
 			}
 		}
 

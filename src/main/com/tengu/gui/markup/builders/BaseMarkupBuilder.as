@@ -23,9 +23,13 @@ package com.tengu.gui.markup.builders
 		{
             var component:GUIComponent;
             var value:String;
+            if (tagName == MarkupProtocol.ID)
+            {
+                return true;
+            }
             if (tagName == MarkupProtocol.EVENTS)
             {
-                addListeners(target, (tagValue as XML).children());
+                addListeners(parser.target, (tagValue as XML).children());
                 return true;
             }
             if (tagName == MarkupProtocol.WIDTH)
@@ -91,13 +95,13 @@ package com.tengu.gui.markup.builders
 			{
 				name = String(node.localName());
 				value = node.valueOf();
-				if (!Object(target).hasOwnProperty(name))
-				{
-					LogFactory.getLogger(this).error("Property " + name + " not found in [" + target + "]");
-					continue;
-				}
 				if (!parseCustomTag(target, parser, name, value))
 				{
+                    if (!Object(target).hasOwnProperty(name))
+                    {
+                        LogFactory.getLogger(this).error("Property " + name + " not found in [" + target + "]");
+                        continue;
+                    }
 					target[name] = value;
 				}
 			}
@@ -128,9 +132,10 @@ package com.tengu.gui.markup.builders
 				
 				if (parseCustomTag(target, parser, name, value) || builder == null)
 				{
+                    LogFactory.getLogger(this).error("Cannot parse tag <" + name + ">");
 					continue;
 				}
-				id = String(node.attribute("id"));
+				id = String(node.attribute(MarkupProtocol.ID));
 				element = builder.build(node, parser);
 				if (id != null)
 				{
@@ -157,9 +162,9 @@ package com.tengu.gui.markup.builders
 				target = parser.factory.create(alias);
 			}
 			
-			processAttributes(markup, parser, target);
 			processChildren(markup, parser, target);
-			
+			processAttributes(markup, parser, target);
+
 			return target;
 		}
 	}

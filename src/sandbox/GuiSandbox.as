@@ -23,6 +23,7 @@ package
     import flash.display.StageAlign;
     import flash.display.StageScaleMode;
     import flash.events.Event;
+    import flash.events.MouseEvent;
 
     [SWF(width="800", height="600", frameRate="24")]
     public class GuiSandbox extends Sprite
@@ -63,6 +64,20 @@ package
                                         width="400" height="400">
                                     <Button id="button1" label="button1" width="150" height="30"/>
                                     <Button id="button2" label="button2" width="110" height="30"/>
+                                    <HBox width="100%" height="200">
+                                        <RadioGroup width="50%" height="100%" selectedIndex="0">
+                                            <Radio id="radio1" label="Радио1"/>
+                                            <Radio id="radio2" label="Радио2" />
+                                            <Radio id="radio3" label="Радио3" />
+                                        </RadioGroup>
+                                        <VBox width="50%" height="100%" gap="5"
+                                              hAlign="left" vAlign={VerticalAlign.MIDDLE}
+                                              paddingLeft="5">
+                                            <CheckBox id="checkbox1" label="Чекбокс1" selected="true"/>
+                                            <CheckBox id="checkbox2" label="Чекбокс2" />
+                                            <CheckBox id="checkbox3" label="Чекбокс3" />
+                                        </VBox>
+                                    </HBox>
                                 </VBox>;
 
             const factory:IMarkupBuilderFactory = new MarkupBuilderFactory();
@@ -72,6 +87,22 @@ package
             parser.parse(markup);
 
             addChild(parser.target as DisplayObject);
+
+            trace(parser.getElementById("radio1"));
+            trace(parser.getElementById("radio2"));
+            trace(parser.getElementById("radio1") == parser.getElementById("radio3"));
+
+
+        }
+
+        private function onMouseOver(event:MouseEvent):void
+        {
+            trace("MouseOver");
+        }
+
+        private function onMouseClick(event:MouseEvent):void
+        {
+            trace("Click");
         }
 
         private function onThemeInit (event:Event):void

@@ -11,6 +11,7 @@ package com.tengu.gui.markup.enum
 
     public class MarkupProtocol
     {
+        public static const ID:String       = "id";
         public static const EVENTS:String   = "events";
         public static const LAYOUT:String   = "layout";
         public static const VERTICAL_ALIGN:String   = "vAlign";

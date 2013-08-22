@@ -29,13 +29,6 @@ package com.tengu.gui.controls.text
 		private var defaultCaptionText:String = "";
 		private var isPassword:Boolean = false;
 		
-		protected override function get defaultStyle():Object
-		{
-			var result:Object = super.defaultStyle;
-			result["default_text"] 	= result["text"];
-			return result;
-		}
-		
 		public override function get text():String 
 		{
 			if (textField.text == defaultCaptionText)
@@ -230,7 +223,7 @@ package com.tengu.gui.controls.text
 		
 		private function onChangeText(event:Event):void
 		{
-			trace(textField.text, textField.width);
-		}		
+            //?
+		}
 	}
 }

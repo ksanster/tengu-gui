@@ -180,8 +180,8 @@ package com.tengu.gui.managers
 		{
 			var bitmapData:BitmapData = getLoadedTexture(name);
 			var scaledData:BitmapData = null;
-//			trace(name);
-			if (bitmapData == null)
+
+            if (bitmapData == null)
 			{
 				textures[name] = INVALID_TEXTURE;
 			}

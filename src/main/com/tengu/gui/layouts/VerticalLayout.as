@@ -99,7 +99,7 @@ package com.tengu.gui.layouts
 				clip.x = horizontalAlignStart + horizontalAlignKoef * clip.width;
 				clip.y = yCoord;
 				
-				yCoord += gap;
+				yCoord += ( clip.height + gap );
 			}
 		}
 	}

@@ -5,6 +5,7 @@ package com.tengu.gui.markup
     import com.tengu.gui.containers.HBox;
     import com.tengu.gui.containers.VBox;
     import com.tengu.gui.controls.buttonbar.ButtonGroup;
+    import com.tengu.gui.controls.buttonbar.RadioGroup;
     import com.tengu.gui.controls.buttons.BaseButton;
     import com.tengu.gui.controls.buttons.CheckBox;
     import com.tengu.gui.controls.buttons.IconButton;
@@ -14,12 +15,15 @@ package com.tengu.gui.markup
     import com.tengu.gui.markup.api.IMarkable;
 	import com.tengu.gui.markup.api.IMarkupBuilder;
 	import com.tengu.gui.markup.api.IMarkupBuilderFactory;
-	import com.tengu.gui.markup.builders.BaseMarkupBuilder;
+    import com.tengu.gui.markup.api.IMarkupParser;
+    import com.tengu.gui.markup.builders.BaseMarkupBuilder;
     import com.tengu.gui.markup.builders.ContainerBuilder;
     import com.tengu.log.LogFactory;
 	
 	public class MarkupBuilderFactory implements IMarkupBuilderFactory
 	{
+        internal const parsers:Vector.<IMarkupParser> = new Vector.<IMarkupParser>();
+
 		private var classes:Object;
 		private var builders:Object;
 		
@@ -37,13 +41,14 @@ package com.tengu.gui.markup
 			registerBuilder(componentBuilder, GUIComponent, "Component");
             registerBuilder(containerBuilder, GUIContainer, "Container");
             registerBuilder(containerBuilder, ButtonGroup, "ButtonGroup");
+            registerBuilder(containerBuilder, RadioGroup, "RadioGroup");
             registerBuilder(containerBuilder, VBox, "VBox");
             registerBuilder(containerBuilder, HBox, "HBox");
             registerBuilder(componentBuilder, Text, "Text");
             registerBuilder(componentBuilder, BaseButton, "BaseButton");
-            registerBuilder(componentBuilder, TextButton, "TextButton");
+            registerBuilder(componentBuilder, TextButton, "Button");
             registerBuilder(componentBuilder, IconButton, "IconButton");
-            registerBuilder(componentBuilder, CheckBox, "Checkbox");
+            registerBuilder(componentBuilder, CheckBox,   "Checkbox");
             registerBuilder(componentBuilder, RadioButton, "Radio");
 //			result["Component"] = GUIComponent;
 //			result["Container"] = GUIContainer;
@@ -113,5 +118,21 @@ package com.tengu.gui.markup
 			}
 			return result;
 		}
-	}
+
+        public function getParser (target:IMarkable):IMarkupParser
+        {
+            var result:IMarkupParser;
+            if (parsers.length == 0)
+            {
+                result = new MarkupParser();
+                result.factory = this;
+            }
+            else
+            {
+                result = parsers.pop();
+            }
+            result.target = target;
+            return result;
+        }
+    }
 }

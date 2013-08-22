@@ -1,4 +1,4 @@
-package com.tengu.gui.controls.buttongroup
+package com.tengu.gui.controls.buttonbar
 {
 	import com.tengu.gui.controls.buttonbar.ButtonGroup;
 	import com.tengu.gui.enum.HorizontalAlign;

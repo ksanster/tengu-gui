@@ -103,7 +103,7 @@ package com.tengu.gui.controls.buttons
 		protected override function updateLayout():void
 		{
 			super.updateLayout();
-			contentHolder.invalidate(VALIDATION_FLAG_LAYOUT);
+			contentHolder.invalidate(VALIDATION_FLAG_LAYOUT)
 			contentHolder.draw();
 		}
 		

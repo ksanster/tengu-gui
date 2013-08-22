@@ -62,9 +62,10 @@ package com.tengu.gui.markup
 		
 		public function finalize():void
 		{
+            const hash:Vector.<IMarkupParser> = (factory as MarkupBuilderFactory).parsers;
 			elementsById = null;
 			target = null;
-			builderFactory = null;
+            hash[hash.length] = this;
 		}
 	}
 }
