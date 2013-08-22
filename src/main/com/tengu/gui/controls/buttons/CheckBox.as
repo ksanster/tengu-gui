@@ -21,6 +21,7 @@ package com.tengu.gui.controls.buttons {
 		protected override function createChildren():void 
 		{
 			super.createChildren();
+            downDeltaY = 0;
 			toggle = true;
 			layout.horizontalAlign = HorizontalAlign.LEFT;
 		}

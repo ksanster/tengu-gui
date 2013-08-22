@@ -19,6 +19,7 @@ package com.tengu.gui.markup.enum
         public static const GAP:String      = "gap";
         public static const WIDTH:String    = "width";
         public static const HEIGHT:String   = "height";
+        public static const STYLE:String    = "style";
 
         public static const NAME:String     = "name";
         public static const METHOD:String   = "method";

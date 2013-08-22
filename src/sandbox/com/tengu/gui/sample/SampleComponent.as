@@ -24,23 +24,28 @@ package com.tengu.gui.sample
                 x="50" y="50"
                 width="400" height="400">
 
-            <Button id="button1" label="button1" width="150" height="30"/>
+            <Text text="label text"/>
+            <Radio label="Радио1"/>
+            <Button id="button1" label="button1" width="150" height="30">
+                <events>
+                    <event name={MouseEvent.CLICK} method="onMouseClick"/>
+                </events>
+            </Button>
+            <HBox width="100%" height="200" style="filled">
+                <ButtonGroup width="50%" height="100%" selectedIndex="-1">
+                    <layout>
+                        <VerticalLayout horizontalAlign="center" verticalAlign="top"/>
+                    </layout>
+                    <Radio id="radio1" label="Радио1"/>
+                    <Radio id="radio2" label="Радио2" />
+                    <Radio id="radio3" label="Радио3" />
+                </ButtonGroup>
+                <VBox width="50%" height="100%" style="filled" vAlign="middle">
+                    <CheckBox label="Радио1" selected="true"/>
+                </VBox>
+            </HBox>
 
         </VBox>;
-//                <HBox width="100%" height="200">
-//                    <RadioGroup width="50%" height="100%" selectedIndex="0">
-//                        <Radio id="radio1" label="Радио1"/>
-//                        <Radio id="radio2" label="Радио2" />
-//                        <Radio id="radio3" label="Радио3" />
-//                    </RadioGroup>
-//                    <VBox width="50%" height="100%" gap="5"
-//                    hAlign="left" vAlign={VerticalAlign.MIDDLE}
-//                    paddingLeft="5">
-//                        <CheckBox id="checkbox1" label="Чекбокс1" selected="true"/>
-//                        <CheckBox id="checkbox2" label="Чекбокс2" />
-//                        <CheckBox id="checkbox3" label="Чекбокс3" />
-//                    </VBox>
-//                </HBox>
 
         private var parser:IMarkupParser;
 
@@ -52,6 +57,10 @@ package com.tengu.gui.sample
         override protected function createChildren ():void
         {
             super.createChildren();
+
+            textureManager.registerFloodFillTexture("fill", 0x00FFFF, .4);
+            styleManager.registerStyle("filled", {background_fill: "fill"});
+
             parser = markupFactory.getParser(this);
             parser.parse(markup);
         }
@@ -62,12 +71,7 @@ package com.tengu.gui.sample
             super.dispose();
         }
 
-        private function onMouseOver(event:MouseEvent):void
-        {
-            trace("MouseOver");
-        }
-
-        private function onMouseClick(event:MouseEvent):void
+        public function onMouseClick(event:MouseEvent):void
         {
             trace("Click");
         }

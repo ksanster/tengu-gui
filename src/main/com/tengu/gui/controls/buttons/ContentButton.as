@@ -73,7 +73,6 @@ package com.tengu.gui.controls.buttons
 			super.createChildren();
 			contentHolder = new GUIContainer();
 			contentHolder.cropContent = false;
-			contentHolder.setSize(componentWidth, componentHeight);
 			contentHolder.layout = createContentLayout();
 			contentHolder.y = upDeltaY;
 			addChild(contentHolder);

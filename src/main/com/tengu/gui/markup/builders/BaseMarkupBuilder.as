@@ -27,9 +27,14 @@ package com.tengu.gui.markup.builders
             {
                 return true;
             }
+            if (tagName == MarkupProtocol.STYLE)
+            {
+                target[tagName] = String(tagValue);
+                return true;
+            }
             if (tagName == MarkupProtocol.EVENTS)
             {
-                addListeners(parser.target, (tagValue as XML).children());
+                addListeners(target as IEventDispatcher, parser.target, (tagValue as XML).children());
                 return true;
             }
             if (tagName == MarkupProtocol.WIDTH)
@@ -63,9 +68,8 @@ package com.tengu.gui.markup.builders
 			return false;
 		}
 
-        private function addListeners (target:IMarkable, nodes:XMLList):void
+        private function addListeners (dispatcher:IEventDispatcher, target:IMarkable, nodes:XMLList):void
         {
-            const dispatcher:IEventDispatcher = target as IEventDispatcher;
             var eventName:String;
             var methodName:String;
             if (dispatcher == null)
@@ -128,13 +132,18 @@ package com.tengu.gui.markup.builders
 			{
 				name = String(node.localName());
 				value = node;
-				builder = parser.factory.getBuilderByAlias(name); 
-				
-				if (parseCustomTag(target, parser, name, value) || builder == null)
+
+				if (parseCustomTag(target, parser, name, value))
 				{
-                    LogFactory.getLogger(this).error("Cannot parse tag <" + name + ">");
 					continue;
 				}
+
+				builder = parser.factory.getBuilderByAlias(name);
+                if (builder == null)
+                {
+                    LogFactory.getLogger(this).error("Cannot parse tag <" + name + ">");
+                    continue;
+                }
 				id = String(node.attribute(MarkupProtocol.ID));
 				element = builder.build(node, parser);
 				if (id != null)

@@ -134,8 +134,8 @@ package com.tengu.gui.controls.buttonbar
 					childsByIndex[childsByIndex.length] = divider;
 				}
 			}
-			
 		}
+
 		
 		private function updateButtons ():void
 		{

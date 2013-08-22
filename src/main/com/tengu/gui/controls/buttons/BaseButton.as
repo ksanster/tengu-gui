@@ -27,8 +27,7 @@ package com.tengu.gui.controls.buttons
 	public class BaseButton extends GUIComponent
 	{
 		private static const TRANSPARENT_FILL:ColorFloodFill = new ColorFloodFill();
-		private static const DEFAULT_FILL:ColorFloodFill = new ColorFloodFill(0xFF, .3);
-		
+
 		protected static const STATE_UP:String 			= "up";
 		protected static const STATE_OVER:String 		= "over";
 		protected static const STATE_DOWN:String 		= "down";
@@ -98,7 +97,7 @@ package com.tengu.gui.controls.buttons
 		
 		private function updateFills():void
 		{
-			fills[STATE_UP]					||= DEFAULT_FILL;
+			fills[STATE_UP]					||= TRANSPARENT_FILL;
 			fills[STATE_OVER] 				||= fills[STATE_UP];
 			fills[STATE_DOWN] 				||= fills[STATE_UP];
 			fills[STATE_DISABLED] 			||= fills[STATE_UP];

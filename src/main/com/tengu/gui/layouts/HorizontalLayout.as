@@ -61,10 +61,9 @@ package com.tengu.gui.layouts
 			for each (component in percentSizedClips)
 			{
 				component.width = (noPaddingWidth - deltaGap - componentsWidth) * component.percentWidth * .01;
-				tmp += component.height;
+				tmp += component.width;
 			}
-			componentsWidth += tmp;
-			
+
 			contentWidth = componentsWidth + tmp;
 			setAlignParams(target, noPaddingWidth, noPaddingHeight);
 			

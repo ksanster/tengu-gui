@@ -64,8 +64,7 @@ package com.tengu.gui.layouts
 				component.height = (noPaddingHeight - deltaGap - componentsHeight) * component.percentHeight * .01;
 				tmp += component.height;
 			}
-			componentsHeight += tmp;
-			
+
 			contentHeight = componentsHeight + tmp;
 			setAlignParams(target, noPaddingWidth, noPaddingHeight);
 			

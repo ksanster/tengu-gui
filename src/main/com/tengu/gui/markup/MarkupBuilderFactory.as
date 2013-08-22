@@ -12,6 +12,8 @@ package com.tengu.gui.markup
     import com.tengu.gui.controls.buttons.RadioButton;
     import com.tengu.gui.controls.buttons.TextButton;
     import com.tengu.gui.controls.text.Text;
+    import com.tengu.gui.layouts.HorizontalLayout;
+    import com.tengu.gui.layouts.VerticalLayout;
     import com.tengu.gui.markup.api.IMarkable;
 	import com.tengu.gui.markup.api.IMarkupBuilder;
 	import com.tengu.gui.markup.api.IMarkupBuilderFactory;
@@ -40,16 +42,18 @@ package com.tengu.gui.markup
 			builders = {};
 			registerBuilder(componentBuilder, GUIComponent, "Component");
             registerBuilder(containerBuilder, GUIContainer, "Container");
-            registerBuilder(containerBuilder, ButtonGroup, "ButtonGroup");
-            registerBuilder(containerBuilder, RadioGroup, "RadioGroup");
+            registerBuilder(containerBuilder, RadioGroup, "ButtonGroup");
             registerBuilder(containerBuilder, VBox, "VBox");
             registerBuilder(containerBuilder, HBox, "HBox");
             registerBuilder(componentBuilder, Text, "Text");
             registerBuilder(componentBuilder, BaseButton, "BaseButton");
             registerBuilder(componentBuilder, TextButton, "Button");
             registerBuilder(componentBuilder, IconButton, "IconButton");
-            registerBuilder(componentBuilder, CheckBox,   "Checkbox");
+            registerBuilder(componentBuilder, CheckBox,   "CheckBox");
             registerBuilder(componentBuilder, RadioButton, "Radio");
+            registerBuilder(componentBuilder, HorizontalLayout, "HorizontalLayout");
+            registerBuilder(componentBuilder, VerticalLayout, "VerticalLayout");
+
 //			result["Component"] = GUIComponent;
 //			result["Container"] = GUIContainer;
 //			result["VBox"]      = VBox;
