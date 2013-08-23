@@ -19,6 +19,7 @@ package com.tengu.gui.markup
 	import com.tengu.gui.markup.api.IMarkupBuilderFactory;
     import com.tengu.gui.markup.api.IMarkupParser;
     import com.tengu.gui.markup.builders.BaseMarkupBuilder;
+    import com.tengu.gui.markup.builders.ComponentBuilder;
     import com.tengu.gui.markup.builders.ContainerBuilder;
     import com.tengu.log.LogFactory;
 	
@@ -36,7 +37,8 @@ package com.tengu.gui.markup
 		
 		private function initialize():void
 		{
-            const componentBuilder:IMarkupBuilder = new BaseMarkupBuilder();
+            const baseBuilder:IMarkupBuilder      = new BaseMarkupBuilder();
+            const componentBuilder:IMarkupBuilder = new ComponentBuilder();
             const containerBuilder:IMarkupBuilder = new ContainerBuilder();
 			classes  = {};
 			builders = {};
@@ -51,8 +53,8 @@ package com.tengu.gui.markup
             registerBuilder(componentBuilder, IconButton, "IconButton");
             registerBuilder(componentBuilder, CheckBox,   "CheckBox");
             registerBuilder(componentBuilder, RadioButton, "Radio");
-            registerBuilder(componentBuilder, HorizontalLayout, "HorizontalLayout");
-            registerBuilder(componentBuilder, VerticalLayout, "VerticalLayout");
+            registerBuilder(baseBuilder, HorizontalLayout, "HorizontalLayout");
+            registerBuilder(baseBuilder, VerticalLayout, "VerticalLayout");
 
 //			result["Component"] = GUIComponent;
 //			result["Container"] = GUIContainer;

@@ -14,7 +14,7 @@ package com.tengu.gui.markup.builders
     import com.tengu.gui.markup.api.IMarkupParser;
     import com.tengu.gui.markup.enum.MarkupProtocol;
 
-    public class ContainerBuilder extends BaseMarkupBuilder
+    public class ContainerBuilder extends ComponentBuilder
     {
         public function ContainerBuilder ()
         {
