@@ -50,11 +50,11 @@ package
             theme.addEventListener(Event.INIT, onThemeInit);
         }
 
-        private function addSome ():void
+        private function addSampleComponent ():void
         {
 
             var component:SampleComponent = new SampleComponent();
-            guiRoot.addChild(component)
+            guiRoot.addChild(component);
         }
 
         private function onThemeInit (event:Event):void
@@ -62,7 +62,7 @@ package
             theme.removeEventListener(Event.INIT, onThemeInit);
             guiRoot.applyTheme(theme);
 
-            addSome();
+            addSampleComponent();
         }
 
         private function onAddedToStage (event:Event):void
