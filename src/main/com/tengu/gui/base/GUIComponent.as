@@ -30,10 +30,9 @@ package com.tengu.gui.base
 	[Style(name="unscaled_height")]
 	
 	[Event(name="resize", type="flash.events.Event")]
-	[Event(name="layoutChange", type="com.tengu.gui.events.LayoutEvent")]
 	[Event(name="guiClick", type="com.tengu.gui.events.ClickEvent")]
 	
-	public class GUIComponent extends Sprite implements IDeferredCaller, IMarkable
+	public class GUIComponent extends GUISprite implements IDeferredCaller, IMarkable
 	{
 		private static const CLICK_POSITION_SQUARED_TRESHOLD:uint = 900;
 
@@ -46,8 +45,6 @@ package com.tengu.gui.base
 		public static const VALIDATION_FLAG_SIZE:uint 	    = 0x4;
 		public static const VALIDATION_FLAG_LAYOUT:uint 	= 0x2;
 		public static const VALIDATION_FLAG_DISPLAY:uint 	= 0x1;
-
-		tengu_internal var finalized:Boolean 		= false;
 
         private var mouseDownPos:Point			= null;
 		private var layouted:Boolean    = true;
@@ -64,15 +61,12 @@ package com.tengu.gui.base
 		protected var componentPaddingTop:int 		= 0;
 		protected var componentPaddingBottom:int 	= 0;
 		
-		protected var componentMinWidth:uint  = 0;
-		protected var componentMinHeight:uint = 0;
-		
 		protected var componentPercentWidth:int  = 0;
 		protected var componentPercentHeight:int = 0;
 		
 		protected var componentWidth:int 	= 0;
 		protected var componentHeight:int 	= 0;
-		
+
 		protected final function get textureManager ():ITexturesManager
 		{
 			return GUIManagersFactory.getTexturesManager();
@@ -108,26 +102,6 @@ package com.tengu.gui.base
 			return null;
 		}
 		
-		public function get minWidth ():uint
-		{
-			return componentMinWidth;
-		}
-		
-		public function set minWidth(value:uint):void 
-		{
-			componentMinWidth = value;
-		}
-		
-		public function get minHeight():uint 
-		{
-			return componentMinHeight;
-		}
-		
-		public function set minHeight(value:uint):void 
-		{
-			componentMinHeight = value;
-		}
-		
 		public function get percentWidth ():int
 		{
 			return componentPercentWidth;
@@ -148,46 +122,26 @@ package com.tengu.gui.base
 			componentPercentHeight = value;
 		}
 		
-		public function get displayWidth ():Number
-		{
-			return super.width;
-		}
-		
-		public function get displayHeight ():Number
-		{
-			return super.height;
-		}
-		
-		public override function set x (value:Number):void
-		{
-			super.x = Math.round(value);
-		}
-		
-		public override function set y (value:Number):void
-		{
-			super.y = Math.round(value);
-		}
-		
 		public override function get width():Number
 		{
 			return componentWidth;
 		}
-		
+
 		public override function set width(value:Number):void
 		{
 			setSize(value, componentHeight);
 		}
-		
+
 		public override function get height ():Number
 		{
 			return componentHeight;
 		}
-		
+
 		public override function set height(value:Number):void
 		{
 			setSize(componentWidth, value);
 		}
-		
+
 		public function get style():Object 
 		{
 			return styleObject;
@@ -291,26 +245,17 @@ package com.tengu.gui.base
 		public function GUIComponent()
 		{
 			super();
-			initialize();
 		}
 		
-		protected function initialize ():void
+		protected override function initialize ():void
 		{
+            super.initialize();
 			measure();
 			createChildren();
 			invalidate();
 			draw();
 		}
 
-		//Служебный метод для удаления детей через removeAllChildren
-		protected function disposeComponent (component:DisplayObject):void
-		{
-			if (component is GUIComponent)
-			{
-				(component as GUIComponent).finalize();
-			}
-		}
-		
 		protected function createChildren ():void
 		{
 			mouseEnabled = false;
@@ -320,21 +265,22 @@ package com.tengu.gui.base
 			addEventListener(MouseEvent.MOUSE_UP, onMouseUp, false, int.MIN_VALUE);
 		}
 		
-		protected function dispose ():void
+		protected override function dispose ():void
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			removeEventListener(Event.REMOVED_FROM_STAGE, onRemovedFromStage);
 			removeEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 			removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
 			
-			removeAllChildren(this, disposeComponent);
 			validationFlags = null;
+
+            super.dispose();
 		}
 		
 		protected function measure ():void
 		{
-			componentMinWidth  = DEFAULT_WIDTH;
-			componentMinHeight = DEFAULT_HEIGHT;
+			guiMinWidth  = DEFAULT_WIDTH;
+			guiMinHeight = DEFAULT_HEIGHT;
 			componentWidth 	   = DEFAULT_WIDTH;
 			componentHeight    = DEFAULT_HEIGHT;
 		}
@@ -602,16 +548,6 @@ package com.tengu.gui.base
 			validate();
             validationFlags = 0;
             validating = false;
-		}
-		
-		public final function finalize ():void
-		{
-			if (tengu_internal::finalized)
-			{
-				return;
-			}
-			tengu_internal::finalized = true;
-			dispose();
 		}
 		
 		private function onMouseDown(event:MouseEvent):void

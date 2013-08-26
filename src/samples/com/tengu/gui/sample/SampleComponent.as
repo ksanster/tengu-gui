@@ -28,7 +28,7 @@ package com.tengu.gui.sample
             <Radio label="Радио1"/>
             <Button id="button1" label="button1" width="150" height="30">
                 <events>
-                    <event name={MouseEvent.CLICK} method="onMouseClick"/>
+                    <event name={MouseEvent.CLICK} listener="onMouseClick" capture="false" priority="2" weak="false"/>
                 </events>
             </Button>
             <HBox width="100%" height="200" style="filled">

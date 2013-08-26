@@ -1,5 +1,6 @@
 package com.tengu.gui.markup.builders
 {
+    import com.tengu.core.funcs.parseBoolean;
     import com.tengu.gui.base.GUIComponent;
     import com.tengu.gui.markup.api.IMarkable;
 	import com.tengu.gui.markup.api.IMarkupBuilder;
@@ -72,15 +73,21 @@ package com.tengu.gui.markup.builders
         {
             var eventName:String;
             var methodName:String;
+            var priority:int = 0;
+            var useCapture:Boolean;
+            var useWeakReference:Boolean;
             if (dispatcher == null)
             {
                 return;
             }
             for each (var node:XML in nodes)
             {
-                eventName = String(node.@[MarkupProtocol.NAME]);
-                methodName = String(node.@[MarkupProtocol.METHOD]);
-                dispatcher.addEventListener(eventName, target[methodName]);
+                eventName   = String(node.@[MarkupProtocol.NAME]);
+                methodName  = String(node.@[MarkupProtocol.LISTENER]);
+                priority            = parseInt( String(node.@[MarkupProtocol.PRIORITY]) );
+                useCapture          = parseBoolean( String(node.@[MarkupProtocol.USE_CAPTURE]) );
+                useWeakReference    = parseBoolean( String(node.@[MarkupProtocol.USE_WEAK_REFERENCE]) );
+                dispatcher.addEventListener(eventName, target[methodName], useCapture, priority, useWeakReference);
             }
         }
 	}
