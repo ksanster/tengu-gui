@@ -1,6 +1,7 @@
 package com.tengu.gui.markup.builders
 {
     import com.tengu.core.funcs.parseBoolean;
+    import com.tengu.gui.api.IEventDispatcherEx;
     import com.tengu.gui.base.GUIComponent;
     import com.tengu.gui.markup.api.IMarkable;
 	import com.tengu.gui.markup.api.IMarkupBuilder;
@@ -33,7 +34,7 @@ package com.tengu.gui.markup.builders
                 target[tagName] = String(tagValue);
                 return true;
             }
-            if (tagName == MarkupProtocol.EVENTS)
+            if (tagName == MarkupProtocol.EVENTS && target is IEventDispatcher)
             {
                 addListeners(target as IEventDispatcher, parser.target, (tagValue as XML).children());
                 return true;
@@ -71,6 +72,8 @@ package com.tengu.gui.markup.builders
 
         private function addListeners (dispatcher:IEventDispatcher, target:IMarkable, nodes:XMLList):void
         {
+            const extendedDispatcher:IEventDispatcherEx = dispatcher as IEventDispatcherEx;
+
             var eventName:String;
             var methodName:String;
             var priority:int = 0;
@@ -87,7 +90,15 @@ package com.tengu.gui.markup.builders
                 priority            = parseInt( String(node.@[MarkupProtocol.PRIORITY]) );
                 useCapture          = parseBoolean( String(node.@[MarkupProtocol.USE_CAPTURE]) );
                 useWeakReference    = parseBoolean( String(node.@[MarkupProtocol.USE_WEAK_REFERENCE]) );
-                dispatcher.addEventListener(eventName, target[methodName], useCapture, priority, useWeakReference);
+
+                if (extendedDispatcher != null)
+                {
+                    extendedDispatcher.listen(eventName, target[methodName], useCapture, priority, useWeakReference);
+                }
+                else
+                {
+                    dispatcher.addEventListener(eventName, target[methodName], useCapture, priority, useWeakReference);
+                }
             }
         }
 	}
